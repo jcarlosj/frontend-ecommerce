@@ -1,0 +1,5 @@
+:host {
+  border: 1px dotted blue;
+  box-sizing: border-box;
+  display: flex;
+}
