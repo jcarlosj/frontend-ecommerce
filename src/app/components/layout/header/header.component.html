@@ -1,7 +1,80 @@
-<ul class="menu-main">
+<!-- <ul class="menu-main">
   <li><a routerLink="/home" routerLinkActive="active-link">Home</a></li>
   <li><a routerLink="/products" routerLinkActive="active-link">Products</a></li>
   <li><a [routerLink]="['/product-detail']" routerLinkActive="active-link">Product detail</a></li>
   <li><a routerLink="/cart" routerLinkActive="active-link">Cart</a></li>
   <li><a routerLink="/checkout" routerLinkActive="active-link">Checkout</a></li>
-</ul>
+</ul> -->
+
+
+<header class="header">
+  <div class="logo-navbar container-fluid container container-sm container-md container-lg">
+
+      <nav class="navbar">
+
+          <div id="logo" class="logo">
+              <a href="#" class="logo__link">
+                  <img class="logo__image" src="./assets/images/logo.png" alt="Logo del sitio" />
+                  <div class="logo__text"><span class="logo__text--blue">BIT</span>Store</div>
+              </a>
+          </div>
+
+          <input type="checkbox" id="toggle-main-menu">
+          <label for="toggle-main-menu" class="main-menu__container main-menu__open">
+               <span class="link-menu">
+                  <fa-icon [icon]="faBars"></fa-icon>
+               </span>
+          </label>
+          <label for="toggle-main-menu" class="main-menu__container main-menu__close">
+              <span class="link-menu">
+                  <fa-icon [icon]="faXmark"></fa-icon>
+              </span>
+          </label>
+          <label for="toggle-main-menu" class="background">
+              <span></span>
+          </label>
+
+          <ul id="main-menu" class="main-menu main-menu__container">
+              <li class="menu-item">
+                  <a href="#">Home</a>
+              </li>
+              <li class="menu-item">
+                  <a href="#">Products</a>
+              </li>
+              <li class="menu-item">
+                  <a href="#">Cart</a>
+              </li>
+              <li class="menu-item menu-login">
+                  <ul>
+                      <li class="menu-item">
+                          <a class="btn btn-outline-primary" href="#">Login</a>
+                      </li>
+                      <li class="menu-item">
+                          <a class="btn btn-primary" href="#">Register</a>
+                      </li>
+                  </ul>
+              </li>
+          </ul>
+
+          <ul id="auth-menu" class="auth-menu auth-menu__container">
+              <li class="menu-item">
+                  <a class="btn btn-outline-primary" href="#">Login</a>
+              </li>
+              <li class="menu-item">
+                  <a class="btn btn-primary" href="#">Register</a>
+              </li>
+          </ul>
+
+          <ul id="menu-right" class="menu-right">
+              <li class="menu-item">
+                  <a href="#" class="link-item">
+                      <fa-icon [icon]="faCartShopping"></fa-icon>
+                      <span id="cart-items">1</span>
+                  </a>
+              </li>
+          </ul>
+
+      </nav>
+      <!-- <img class="hamburger-icon" src="./images/menu.svg" alt="Hamburger icon"> -->
+  </div>
+</header>
