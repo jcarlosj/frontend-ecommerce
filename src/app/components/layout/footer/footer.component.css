@@ -1,0 +1,117 @@
+.footer {
+
+  .pre-footer{
+      background-color: var(--AliceBlue);
+  }
+
+  .pre-footer__container {
+      display: flex;
+      flex-direction: column;
+      flex-wrap: wrap;
+
+      .widget {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          &.widget-1 {
+              flex: 0 0 10rem;
+          }
+          &.widget-2 {
+              flex: 0 0 20rem;
+          }
+          &.widget-3 {
+              flex: 0 0 34rem;
+          }
+      }
+  }
+
+
+  .menu-footer {
+      list-style: none;
+      line-height: 1.8;
+  }
+
+  @media ( min-width: 567px ) {
+      .pre-footer__container {
+          flex-direction: row;
+          flex-wrap: wrap;
+
+          .widget {
+              /* border: 1px dotted green; */
+              align-items: flex-start;
+              padding: 3rem 0;
+
+              &.widget-1 {
+                  justify-content: start;
+                  flex: 0 0 20rem;
+              }
+
+              &.widget-2 {
+                  flex: 1 0 auto;
+              }
+              &.widget-3 {
+                  flex: 1 0 100%;
+              }
+          }
+
+      }
+  }
+
+  @media ( min-width: 992px ) {
+      .pre-footer__container {
+
+          .widget {
+              &.widget-2,
+              &.widget-3 {
+                  flex: 1 0 auto;
+              }
+          }
+      }
+  }
+
+  .main-footer {
+      /* border: 1px dotted orange; */
+      height: 4rem;
+  }
+}
+
+.main-footer__content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: var(--header-height);
+  line-height: 1.4;
+  margin: 0 auto;
+  font-size: 1.4rem;
+
+  .menu.menu-social-network {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+  }
+
+  .menu-item__link {
+      background-color: var(--bleu-de-france);
+      border: 1px solid var(--bleu-de-france);
+      color: var(--white);
+      font-size: 1.6rem;
+      border-radius: .4rem;
+      width: 2.6rem;
+      height: 2.6rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+  }
+}
+
+@media ( min-width: 992px ) {
+  .main-footer__content {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+  }
+}
