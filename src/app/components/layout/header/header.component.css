@@ -223,3 +223,9 @@ span.link-menu {
       flex-basis: 10rem;
   }
 }
+
+
+.active-link {
+
+  border-bottom: 2px solid var( --bleu-de-france );
+}
