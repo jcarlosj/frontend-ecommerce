@@ -29,4 +29,12 @@
   .input-primary {
     background: var(--AliceBlue);
   }
+
+  .error {
+    color: red;
+    font-size: 1.2rem;
+    text-align: left;
+    font-style: italic;
+    font-weight: bold;
+}
 }

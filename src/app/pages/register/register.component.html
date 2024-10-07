@@ -1,24 +1,75 @@
-<form class="form form-register">
+<form
+  [formGroup]="formData"
+  (ngSubmit)="handleSubmit()"
+  class="form form-register"
+>
   <h1>Register</h1>
+
+  <div class="errors">
+    <!-- <pre>name: {{ formData.get( 'name' )?.errors | json }}</pre>
+    <pre>username: {{ formData.get( 'username' )?.errors | json }}</pre> -->
+    <pre>password: {{ formData.get( 'password' )?.errors | json }}</pre>
+  </div>
+
   <div class="form-register__content">
 
     <div class="field">
-      <label for="name">Name*</label>
-      <input type="text" name="name" id="name" class="input input-primary">
+      <label for="complete-name">Name*</label>
+      <input type="text" formControlName="name" id="complete-name" class="input input-primary">
+      <div class="error">
+        <!-- Evaluamos los estados del campo 'name' -->
+        <div *ngIf="formData.get( 'name' )?.invalid && ( formData.get( 'name' )?.touched || formData.get( 'name' )?.dirty )">
+          <div *ngIf="formData.get( 'name' )?.errors?.[ 'required' ]">
+            El nombre para usuario es requerido
+          </div>
+        </div>
+      </div>
     </div>
 
     <div class="field">
-      <label for="name">Username (email)*</label>
-      <input type="text" name="name" id="name" class="input input-primary">
+      <label for="username">Username (email)*</label>
+      <input type="text" formControlName="username" id="username" class="input input-primary">
+      <div class="error">
+        <!-- Evaluamos los estados del campo 'username' -->
+        <div *ngIf="formData.get( 'username' )?.invalid && ( formData.get( 'username' )?.touched || formData.get( 'username' )?.dirty )">
+
+          <div *ngIf="formData.get( 'username' )?.errors?.[ 'required' ]">
+            El correo es un valor obligatorio
+          </div>
+
+          <div *ngIf="formData.get( 'username' )?.errors?.[ 'email' ]">
+            El correo no tiene un formato valido
+          </div>
+
+        </div>
+      </div>
     </div>
 
     <div class="field">
-      <label for="name">Password*</label>
-      <input type="text" name="name" id="name" class="input input-primary">
+      <label for="password">Password*</label>
+      <input type="password" formControlName="password" id="password" class="input input-primary">
+      <div class="error">
+        <!-- Evaluamos los estados del campo 'password' -->
+        <div *ngIf="formData.get( 'password' )?.invalid && ( formData.get( 'password' )?.touched || formData.get( 'password' )?.dirty )">
+
+          <div *ngIf="formData.get( 'password' )?.errors?.[ 'required' ]">
+            La contraseña es obligatoria
+          </div>
+
+          <div *ngIf="formData.get( 'password' )?.errors?.[ 'minlength' ]">
+            La contraseña debe tener minimo 6 caracteres
+          </div>
+
+          <div *ngIf="formData.get( 'password' )?.errors?.[ 'maxlength' ]">
+            La contraseña debe tener máximo 12 caracteres
+          </div>
+
+        </div>
+      </div>
     </div>
 
     <div class="field">
-      <button class="btn btn-primary">Register</button>
+      <button type="submit" class="btn btn-primary">Register</button>
     </div>
 
 
