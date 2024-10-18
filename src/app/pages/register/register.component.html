@@ -5,33 +5,51 @@
 >
   <h1>Register</h1>
 
-  <div class="errors">
-    <!-- <pre>name: {{ formData.get( 'name' )?.errors | json }}</pre>
-    <pre>username: {{ formData.get( 'username' )?.errors | json }}</pre> -->
+  <!-- <div class="errors">
+    <pre>name: {{ formData.get( 'name' )?.errors | json }}</pre>
+    <pre>username: {{ formData.get( 'username' )?.errors | json }}</pre>
     <pre>password: {{ formData.get( 'password' )?.errors | json }}</pre>
-  </div>
+  </div> -->
 
   <div class="form-register__content">
 
     <div class="field">
       <label for="complete-name">Name*</label>
-      <input type="text" formControlName="name" id="complete-name" class="input input-primary">
+      <input type="text" formControlName="name" id="complete-name" class="input input-primary" placeholder="Ej: Sofia Gutierrez">
       <div class="error">
         <!-- Evaluamos los estados del campo 'name' -->
-        <div *ngIf="formData.get( 'name' )?.invalid && ( formData.get( 'name' )?.touched || formData.get( 'name' )?.dirty )">
+        @if( formData.get( 'name' )?.invalid && ( formData.get( 'name' )?.touched || formData.get( 'name' )?.dirty ) ) {
+          @if( formData.get( 'name' )?.errors?.[ 'required' ] ) {
+            <span>El nombre para usuario es requerido</span>
+          }
+        }
+
+        <!-- Estructura condicional usando la directiva ngIf -->
+        <!-- <div *ngIf="formData.get( 'name' )?.invalid && ( formData.get( 'name' )?.touched || formData.get( 'name' )?.dirty )">
           <div *ngIf="formData.get( 'name' )?.errors?.[ 'required' ]">
             El nombre para usuario es requerido
           </div>
-        </div>
+        </div> -->
+
       </div>
     </div>
 
     <div class="field">
       <label for="username">Username (email)*</label>
-      <input type="text" formControlName="username" id="username" class="input input-primary">
+      <input type="text" formControlName="username" id="username" class="input input-primary" placeholder="Ej: sofia@correo.co">
       <div class="error">
         <!-- Evaluamos los estados del campo 'username' -->
-        <div *ngIf="formData.get( 'username' )?.invalid && ( formData.get( 'username' )?.touched || formData.get( 'username' )?.dirty )">
+        @if( formData.get( 'username' )?.invalid && ( formData.get( 'username' )?.touched || formData.get( 'username' )?.dirty ) ) {
+          @if( formData.get( 'username' )?.errors?.[ 'required' ] ) {
+            <span>El correo es un valor obligatorio</span>
+          }
+          @if( formData.get( 'username' )?.errors?.[ 'email' ] ) {
+            <span>El correo no tiene un formato valido</span>
+          }
+        }
+
+        <!-- Estructura condicional usando la directiva ngIf -->
+        <!-- <div *ngIf="formData.get( 'username' )?.invalid && ( formData.get( 'username' )?.touched || formData.get( 'username' )?.dirty )">
 
           <div *ngIf="formData.get( 'username' )?.errors?.[ 'required' ]">
             El correo es un valor obligatorio
@@ -41,7 +59,7 @@
             El correo no tiene un formato valido
           </div>
 
-        </div>
+        </div> -->
       </div>
     </div>
 
@@ -50,7 +68,20 @@
       <input type="password" formControlName="password" id="password" class="input input-primary">
       <div class="error">
         <!-- Evaluamos los estados del campo 'password' -->
-        <div *ngIf="formData.get( 'password' )?.invalid && ( formData.get( 'password' )?.touched || formData.get( 'password' )?.dirty )">
+        @if( formData.get( 'password' )?.invalid && ( formData.get( 'password' )?.touched || formData.get( 'password' )?.dirty ) ) {
+          @if( formData.get( 'password' )?.errors?.[ 'required' ] ) {
+            <span>La contraseña es obligatoria</span>
+          }
+          @if( formData.get( 'password' )?.errors?.[ 'minlength' ] ) {
+            <span>La contraseña debe tener minimo 6 caracteres</span>
+          }
+          @if( formData.get( 'password' )?.errors?.[ 'maxlength' ] ) {
+            <span>La contraseña debe tener máximo 12 caracteres</span>
+          }
+        }
+
+        <!-- Estructura condicional usando la directiva ngIf -->
+        <!-- <div *ngIf="formData.get( 'password' )?.invalid && ( formData.get( 'password' )?.touched || formData.get( 'password' )?.dirty )">
 
           <div *ngIf="formData.get( 'password' )?.errors?.[ 'required' ]">
             La contraseña es obligatoria
@@ -64,12 +95,17 @@
             La contraseña debe tener máximo 12 caracteres
           </div>
 
-        </div>
+        </div> -->
       </div>
     </div>
 
     <div class="field">
-      <button type="submit" class="btn btn-primary">Register</button>
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="formData.invalid"
+        [class.disabled-button]="formData.invalid"
+      >Register</button>
     </div>
 
 

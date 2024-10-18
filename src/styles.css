@@ -487,3 +487,53 @@ input, textarea {
 .field-button {
   margin: 0;
 }
+
+
+/** Forms: Global Styles */
+.form {
+  width: 30rem;
+  margin: 0 auto;
+
+  h1 {
+    margin: 3rem 0;
+  }
+
+  .field {
+    line-height: 1.4rem;
+  }
+
+  label {
+    display: block;
+    text-align: left;
+    margin-bottom: .5rem;
+    width: 100%;
+  }
+
+  .input {
+    border: 2px solid transparent;
+    box-sizing: border-box;
+    height: var( --height-btn );
+    width: 100%;
+    outline: 0;
+    padding: 0 1rem;
+  }
+
+  .input-primary {
+    background: var(--AliceBlue);
+  }
+
+  .error {
+    color: red;
+    font-size: 1.2rem;
+    text-align: left;
+    font-style: italic;
+    font-weight: bold;
+  }
+
+  .disabled-button {
+    background-color: #5aa0fc;
+    border-color: #5aa0fc;
+    color: white;
+    cursor: not-allowed;
+  }
+}

@@ -1,0 +1,56 @@
+<form
+  [formGroup]="formData"
+  (ngSubmit)="handleSubmit()"
+  class="form form-register"
+>
+  <h1>Login</h1>
+  <div class="form-register__content">
+
+    <div class="field">
+      <label for="username">Username (email)*</label>
+      <input type="email" formControlName="username" id="username" class="input input-primary" placeholder="Ej: sofia@correo.co">
+      <div class="error">
+        <!-- Evaluamos los estados del campo 'username' -->
+         @if( formData.get( 'username' )?.invalid && ( formData.get( 'username' )?.touched || formData.get( 'username' )?.dirty ) ) {
+          @if( formData.get( 'username' )?.errors?.[ 'required' ] ) {
+            <span>El correo es un valor obligatorio</span>
+          }
+          @if( formData.get( 'username' )?.errors?.[ 'email' ] ) {
+            <span>El correo no tiene un formato valido</span>
+          }
+         }
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="password">Password*</label>
+      <input type="password" formControlName="password" id="password" class="input input-primary">
+      <div class="error">
+        <!-- Evaluamos los estados del campo 'password' -->
+        @if( formData.get( 'password' )?.invalid && ( formData.get( 'password' )?.touched || formData.get( 'password' )?.dirty ) ) {
+          @if( formData.get( 'password' )?.errors?.[ 'required' ] ) {
+            <span>La contraseña es obligatoria</span>
+          }
+          @if( formData.get( 'password' )?.errors?.[ 'minlength' ] ) {
+            <span>La contraseña debe tener minimo 6 caracteres</span>
+          }
+          @if( formData.get( 'password' )?.errors?.[ 'maxlength' ] ) {
+            <span>La contraseña debe tener máximo 12 caracteres</span>
+          }
+        }
+      </div>
+    </div>
+
+    <div class="field">
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="formData.invalid"
+        [class.disabled-button]="formData.invalid"
+      >Login</button>
+    </div>
+
+
+  </div>
+
+</form>
