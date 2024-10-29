@@ -1,9 +1,10 @@
-
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
 
 import { AuthService } from '../../services/auth.service';
+
 
 
 @Component({
@@ -21,37 +22,30 @@ export class RegisterComponent {
     password: new FormControl( '', [ Validators.required, Validators.minLength( 6 ), Validators.maxLength( 12 ) ] )
   });
 
+  private subscription!: Subscription;
+
   constructor( private authService: AuthService ) {}
 
+  ngOnInit() {
+    console.log( 'El RegisterComponent se ha inicializado' );
+  }
+
+  ngOnDestroy() {
+    console.log( 'El RegisterComponent se ha destruido' );
+    if( this.subscription ) {
+      this.subscription.unsubscribe();
+    }
+  }
 
   handleSubmit() {
     // Muestra los datos del formulario si este es valido
     if( this.formData.valid ) {
       console.log( this.formData.value );
 
-      this.authService.registerUser( this.formData.value ).subscribe( function ( data: any ) {
+      this.subscription = this.authService.registerUser( this.formData.value ).subscribe( function ( data: any ) {
         console.log( data );
       });
     }
-
-
-    /** Estados principales del Formulario */
-    console.log(
-      'valid', this.formData.valid,
-      // 'invalid', this.formData.invalid,
-      // 'pristine', this.formData.pristine,
-      // 'dirty', this.formData.dirty,
-      // 'touched', this.formData.touched,
-      // 'untouched', this.formData.untouched,
-      // 'pending', this.formData.pending
-    );
-
-    /** Estados principales de un campo especifico del formulario */
-    // console.log(
-    //     this.formData.get( 'name' )?.valid,
-    //     this.formData.get( 'name' )?.pristine,
-    //     this.formData.get( 'name' )?.touched
-    // );
 
     this.formData.reset();
   }
