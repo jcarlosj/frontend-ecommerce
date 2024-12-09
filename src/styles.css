@@ -536,4 +536,9 @@ input, textarea {
     color: white;
     cursor: not-allowed;
   }
+
+  .message {
+    height: 2rem;
+    margin: 0 0 1.3rem 0;
+  }
 }

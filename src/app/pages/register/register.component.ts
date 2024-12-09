@@ -15,6 +15,8 @@ import { AuthService } from '../../services/auth.service';
   styleUrl: './register.component.css'
 })
 export class RegisterComponent {
+  message: any = '';
+
   /** Atributo para agrupar los campos del formulario */
   formData = new FormGroup({
     name: new FormControl( '', [ Validators.required ] ),
@@ -42,8 +44,16 @@ export class RegisterComponent {
     if( this.formData.valid ) {
       console.log( this.formData.value );
 
-      this.subscription = this.authService.registerUser( this.formData.value ).subscribe( function ( data: any ) {
+      this.subscription = this.authService.registerUser( this.formData.value ).subscribe( ( data: any ) => {
         console.log( data );
+
+        /** Asignando el mensaje para desplegarlo en el formulario (error, exito) */
+        this.message = data;
+
+        /** Ocultar el mensaje pasados 2 segundos */
+        setTimeout( () => {
+          this.message = '';
+        }, 2000 );
       });
     }
 
