@@ -10,6 +10,8 @@ import { AuthService } from '../../services/auth.service';
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
+  message: any = '';
+
   /** Atributo para agrupar los campos del formulario */
   formData = new FormGroup({
     username: new FormControl( '', [ Validators.required, Validators.email ] ),
@@ -23,6 +25,14 @@ export class LoginComponent {
       console.log( this.formData.value );
       this.authService.loginUser( this.formData.value ).subscribe( ( data ) => {
         console.log( data );
+
+        /** Asignando el mensaje para desplegarlo en el formulario (error, exito) */
+        this.message = data;
+
+        /** Ocultar el mensaje pasados d2 segundos */
+        setTimeout( () => {
+          this.message = '';
+        }, 2000 );
       } );
     }
 
