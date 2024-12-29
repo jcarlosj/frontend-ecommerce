@@ -11,7 +11,15 @@ export class AuthService {
   constructor( private http: HttpClient ) {}
 
   get userData() {
-    // TODO: Leer los datos del localstorage cuando se recargue la aplicacion tener los datos del usuario registrado disponibles
+    // Paso 1: Leer los datos del localStorage
+    const storedData = localStorage.getItem( 'authUserData' );
+    console.log( storedData );
+
+    // Paso 2: Verificar si el localStorage posee datos
+    if( storedData ) {
+      this._authUserData = JSON.parse( storedData );    // Si posee datos los convertimos string a un Objecto JavaScript
+    }
+
     return this._authUserData;
   }
 
@@ -65,6 +73,21 @@ export class AuthService {
           return of( 'Error: El servidor esta fallando' );
         })
       );
+  }
+
+  logoutUser() {
+    console.log( this._authUserData );
+
+    if( this._authUserData ) {
+
+      this._authUserData = null;            // Eliminando los datos del usuario autenticado que persisten en el Servicio
+      localStorage.removeItem( 'token' );   // Eliminando el key llamado token de nuestro localStorage
+      localStorage.removeItem( 'authUserData' );   // Eliminando el key llamado authUserData de nuestro localStorage
+
+      return of( true );
+    }
+
+    return of( false );
   }
 
 }

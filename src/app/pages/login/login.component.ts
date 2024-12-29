@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -18,7 +19,10 @@ export class LoginComponent {
     password: new FormControl( '', [ Validators.required, Validators.minLength( 6 ), Validators.maxLength( 12 ) ] )
   });
 
-  constructor( private authService: AuthService ) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   handleSubmit() {
     if( this.formData.valid ) {
@@ -32,6 +36,7 @@ export class LoginComponent {
         /** Ocultar el mensaje pasados d2 segundos */
         setTimeout( () => {
           this.message = '';
+          this.router.navigateByUrl( 'dashboard' );
         }, 2000 );
       } );
     }

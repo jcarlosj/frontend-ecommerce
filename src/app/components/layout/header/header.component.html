@@ -35,9 +35,11 @@
           </label>
 
           <ul id="main-menu" class="main-menu main-menu__container">
-              <li class="menu-item">
-                <pre>Hola, {{ userData.name }}</pre>
-              </li>
+              @if( userData ) {
+                <li class="menu-item">
+                  <span>Hola, {{ userData.name }}</span>
+                </li>
+              }
               <!-- <li class="menu-item">
                   <a routerLink="/products" routerLinkActive="active-link">Products</a>
               </li>
@@ -52,23 +54,37 @@
               </li> -->
               <li class="menu-item menu-login">
                   <ul>
-                      <li class="menu-item">
+                      @if( userData ) {
+                        <li class="menu-item">
+                          <button (click)="logout()" class="btn btn-outline-primary">Logout</button>
+                        </li>
+                      }
+                      @else {
+                        <li class="menu-item">
                           <a class="btn btn-outline-primary" routerLink="login">Login</a>
-                      </li>
-                      <li class="menu-item">
-                          <a class="btn btn-primary" routerLink="/register">Register</a>
-                      </li>
+                        </li>
+                        <li class="menu-item">
+                            <a class="btn btn-primary" routerLink="/register">Register</a>
+                        </li>
+                      }
                   </ul>
               </li>
           </ul>
 
           <ul id="auth-menu" class="auth-menu auth-menu__container">
-              <li class="menu-item">
+              @if( userData ) {
+                <li class="menu-item">
+                  <button (click)="logout()" class="btn btn-outline-primary">Logout</button>
+                </li>
+              }
+              @else {
+                <li class="menu-item">
                   <a class="btn btn-outline-primary" routerLink="login">Login</a>
-              </li>
-              <li class="menu-item">
-                  <a class="btn btn-primary" routerLink="/register">Register</a>
-              </li>
+                </li>
+                <li class="menu-item">
+                    <a class="btn btn-primary" routerLink="/register">Register</a>
+                </li>
+              }
           </ul>
 
           <ul id="menu-right" class="menu-right">

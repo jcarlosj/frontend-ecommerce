@@ -8,6 +8,7 @@ import { CheckoutComponent } from './pages/checkout/checkout.component';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { LoginComponent } from './pages/login/login.component';
+import { DashboardComponent } from './pages/privates/dashboard/dashboard.component';
 
 export const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -18,6 +19,7 @@ export const routes: Routes = [
   { path: 'cart', component: CartComponent },
   { path: 'checkout', component: CheckoutComponent },
   { path: '404', component: PageNotFoundComponent },
+  { path: 'dashboard', component: DashboardComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: '**', redirectTo: '404', pathMatch: 'full' }
 ];
