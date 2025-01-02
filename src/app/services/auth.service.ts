@@ -2,6 +2,12 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, map, of, tap } from 'rxjs';
 
+type DataUser = {
+  name: string;
+  password: string;
+  username: string;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -23,7 +29,7 @@ export class AuthService {
     return this._authUserData;
   }
 
-  registerUser( newUser: any ) {
+  registerUser( newUser: DataUser ) {
     return this.http.post<any>( 'http://localhost:4000/api/auth/register', newUser )
       .pipe(
         map( ( data: any ) => {

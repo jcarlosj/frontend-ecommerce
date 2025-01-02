@@ -5,7 +5,11 @@ import { Subscription } from 'rxjs';
 
 import { AuthService } from '../../services/auth.service';
 
-
+type DataUser = {
+  name: string;
+  password: string;
+  username: string;
+}
 
 @Component({
   selector: 'app-register',
@@ -15,7 +19,7 @@ import { AuthService } from '../../services/auth.service';
   styleUrl: './register.component.css'
 })
 export class RegisterComponent {
-  message: any = '';
+  message: string = '';
 
   /** Atributo para agrupar los campos del formulario */
   formData = new FormGroup({
@@ -44,7 +48,13 @@ export class RegisterComponent {
     if( this.formData.valid ) {
       console.log( this.formData.value );
 
-      this.subscription = this.authService.registerUser( this.formData.value ).subscribe( ( data: any ) => {
+      const inputData: DataUser = {
+        name: this.formData.value.name ?? '',
+        password: this.formData.value.password ?? '',
+        username: this.formData.value.username ?? ''
+      };
+
+      this.subscription = this.authService.registerUser( inputData ).subscribe( ( data: any ) => {
         console.log( data );
 
         /** Asignando el mensaje para desplegarlo en el formulario (error, exito) */
