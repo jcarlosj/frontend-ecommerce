@@ -4,12 +4,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Subscription } from 'rxjs';
 
 import { AuthService } from '../../services/auth.service';
-
-type DataUser = {
-  name: string;
-  password: string;
-  username: string;
-}
+import { DataUser } from '../../models/user.model';
 
 @Component({
   selector: 'app-register',

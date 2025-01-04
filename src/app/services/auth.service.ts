@@ -1,12 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, map, of, tap } from 'rxjs';
-
-type DataUser = {
-  name: string;
-  password: string;
-  username: string;
-}
+import { DataUser, DataUserLogin } from '../models/user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -48,7 +43,7 @@ export class AuthService {
       );
   }
 
-  loginUser( credentials: any ) {
+  loginUser( credentials: DataUserLogin ) {
     return this.http.post( 'http://localhost:4000/api/auth/login', credentials )
       .pipe(
         tap( ( data: any ) => {

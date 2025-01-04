@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+import { DataUserLogin } from '../../models/user.model';
 
 @Component({
   selector: 'app-login',
@@ -27,7 +28,13 @@ export class LoginComponent {
   handleSubmit() {
     if( this.formData.valid ) {
       console.log( this.formData.value );
-      this.authService.loginUser( this.formData.value ).subscribe( ( data ) => {
+
+      const inputData: DataUserLogin = {
+        password: this.formData.value.password ?? '',
+        username: this.formData.value.username ?? ''
+      }
+
+      this.authService.loginUser( inputData ).subscribe( ( data ) => {
         console.log( data );
 
         /** Asignando el mensaje para desplegarlo en el formulario (error, exito) */
