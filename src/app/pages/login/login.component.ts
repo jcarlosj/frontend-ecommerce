@@ -12,7 +12,7 @@ import { DataAuthUser } from '../../models/user.model';
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
-  message: any = '';
+  message: string = '';
 
   /** Atributo para agrupar los campos del formulario */
   formData = new FormGroup({
@@ -25,7 +25,7 @@ export class LoginComponent {
     private router: Router
   ) {}
 
-  handleSubmit() {
+  handleSubmit(): void {
     if( this.formData.valid ) {
       console.log( this.formData.value );
 

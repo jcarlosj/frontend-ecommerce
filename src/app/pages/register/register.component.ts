@@ -38,7 +38,7 @@ export class RegisterComponent {
     }
   }
 
-  handleSubmit() {
+  handleSubmit(): void {
     // Muestra los datos del formulario si este es valido
     if( this.formData.valid ) {
       console.log( this.formData.value );

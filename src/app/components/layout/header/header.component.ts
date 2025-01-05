@@ -1,14 +1,15 @@
 import { Component } from '@angular/core';
-import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { faCartShopping, faBars, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { AuthService } from '../../../services/auth.service';
+import { DataAuthUser } from '../../../models/user.model';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [ RouterLink, RouterLinkActive, FontAwesomeModule ],
+  imports: [ RouterLink, FontAwesomeModule ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
 })
@@ -22,7 +23,7 @@ export class HeaderComponent {
     private router: Router
   ) {}
 
-  get userData(): any {
+  get userData(): DataAuthUser | null {
     return this.authService.userData;
   }
 

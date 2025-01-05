@@ -1,17 +1,18 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, map, of, tap } from 'rxjs';
+import { catchError, map, Observable, of, tap } from 'rxjs';
 import { DataAuthUser } from '../models/user.model';
+import { ResponseApi } from '../models/response.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private _authUserData = null;
+  private _authUserData: null | DataAuthUser = null;
 
   constructor( private http: HttpClient ) {}
 
-  get userData() {
+  get userData(): null | DataAuthUser {
     // Paso 1: Leer los datos del localStorage
     const storedData = localStorage.getItem( 'authUserData' );
     console.log( storedData );
@@ -24,8 +25,8 @@ export class AuthService {
     return this._authUserData;
   }
 
-  registerUser( newUser: DataAuthUser ) {
-    return this.http.post<any>( 'http://localhost:4000/api/auth/register', newUser )
+  registerUser( newUser: DataAuthUser ): Observable<string> {
+    return this.http.post<ResponseApi>( 'http://localhost:4000/api/auth/register', newUser )
       .pipe(
         map( ( data: any ) => {
           return 'Registro realizado exitosamente';
@@ -43,11 +44,11 @@ export class AuthService {
       );
   }
 
-  loginUser( credentials: DataAuthUser ) {
-    return this.http.post( 'http://localhost:4000/api/auth/login', credentials )
+  loginUser( credentials: DataAuthUser ): Observable<string> {
+    return this.http.post<ResponseApi>( 'http://localhost:4000/api/auth/login', credentials )
       .pipe(
-        tap( ( data: any ) => {
-          console.log( data );
+        tap( ( data: ResponseApi ) => {
+          console.log( '>>>>>>>', data );
             // 1. Verificar los datos del usuario
             if( data.data ) {
               // 1.1 Guardar los datos del usuario en el LocalStorage
@@ -58,7 +59,7 @@ export class AuthService {
             }
 
             // 2. Guardar el Token
-            localStorage.setItem( 'token', data.token );
+            localStorage.setItem( 'token', data.token! );
         } ),
         map( ( data ) => {
           return 'Login realizado exitosamente';
@@ -76,7 +77,7 @@ export class AuthService {
       );
   }
 
-  logoutUser() {
+  logoutUser(): Observable<boolean> {
     console.log( this._authUserData );
 
     if( this._authUserData ) {
