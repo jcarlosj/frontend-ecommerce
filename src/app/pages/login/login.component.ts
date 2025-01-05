@@ -3,6 +3,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { DataAuthUser } from '../../models/user.model';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -20,10 +21,18 @@ export class LoginComponent {
     password: new FormControl( '', [ Validators.required, Validators.minLength( 6 ), Validators.maxLength( 12 ) ] )
   });
 
+  private subcription!: Subscription;
+
   constructor(
     private authService: AuthService,
     private router: Router
   ) {}
+
+  ngOnDestroy() {
+    if( this.subcription ) {
+      this.subcription.unsubscribe();
+    }
+  }
 
   handleSubmit(): void {
     if( this.formData.valid ) {
@@ -34,7 +43,7 @@ export class LoginComponent {
         username: this.formData.value.username ?? ''
       }
 
-      this.authService.loginUser( inputData ).subscribe( ( data ) => {
+      this.subcription = this.authService.loginUser( inputData ).subscribe( ( data ) => {
         console.log( data );
 
         /** Asignando el mensaje para desplegarlo en el formulario (error, exito) */
