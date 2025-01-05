@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
-import { DataUserLogin } from '../../models/user.model';
+import { DataAuthUser } from '../../models/user.model';
 
 @Component({
   selector: 'app-login',
@@ -29,7 +29,7 @@ export class LoginComponent {
     if( this.formData.valid ) {
       console.log( this.formData.value );
 
-      const inputData: DataUserLogin = {
+      const inputData: DataAuthUser = {
         password: this.formData.value.password ?? '',
         username: this.formData.value.username ?? ''
       }

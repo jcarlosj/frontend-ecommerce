@@ -4,7 +4,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { Subscription } from 'rxjs';
 
 import { AuthService } from '../../services/auth.service';
-import { DataUser } from '../../models/user.model';
+import { DataAuthUser } from '../../models/user.model';
 
 @Component({
   selector: 'app-register',
@@ -43,7 +43,7 @@ export class RegisterComponent {
     if( this.formData.valid ) {
       console.log( this.formData.value );
 
-      const inputData: DataUser = {
+      const inputData: DataAuthUser = {
         name: this.formData.value.name ?? '',
         password: this.formData.value.password ?? '',
         username: this.formData.value.username ?? ''

@@ -1,10 +1,5 @@
-export type DataUser = {
-  name: string;
-  password: string;
-  username: string;
-}
-
-export type DataUserLogin = {
+export interface DataAuthUser {
+  name?: string;      // Propiedad es optional
   password: string;
   username: string;
 }
