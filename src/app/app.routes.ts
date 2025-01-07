@@ -1,22 +1,18 @@
 import { Routes } from '@angular/router';
 
-import { HomeComponent } from './pages/home/home.component';
-import { ProductsComponent } from './pages/products/products.component';
-import { ProductDetailComponent } from './pages/product-detail/product-detail.component';
-import { CartComponent } from './pages/cart/cart.component';
-import { CheckoutComponent } from './pages/checkout/checkout.component';
-import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';
-import { RegisterComponent } from './pages/register/register.component';
-import { LoginComponent } from './pages/login/login.component';
-import { DashboardComponent } from './pages/privates/dashboard/dashboard.component';
+import { HomeComponent } from './pages/public/home/home.component';
+import { ProductsComponent } from './pages/private/products/products.component';
+import { CheckoutComponent } from './pages/public/checkout/checkout.component';
+import { PageNotFoundComponent } from './pages/public/page-not-found/page-not-found.component';
+import { RegisterComponent } from './pages/public/register/register.component';
+import { LoginComponent } from './pages/public/login/login.component';
+import { DashboardComponent } from './pages/private/dashboard/dashboard.component';
 
 export const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
   { path: 'products', component: ProductsComponent },
-  { path: 'product-detail', component: ProductDetailComponent },
-  { path: 'cart', component: CartComponent },
   { path: 'checkout', component: CheckoutComponent },
   { path: '404', component: PageNotFoundComponent },
   { path: 'dashboard', component: DashboardComponent },
