@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, map, Observable, of, tap } from 'rxjs';
 import { DataAuthUser } from '../models/user.model';
@@ -90,6 +90,37 @@ export class AuthService {
     }
 
     return of( false );
+  }
+
+  verifyUser(): Observable<boolean> {
+    // Paso 1: Obtener el Token de localStorage
+    const token = localStorage.getItem( 'token' ) || '';
+    const headers = new HttpHeaders().set( 'X-Token', token );
+
+    if( ! token ) {
+      return of( false );
+    }
+
+    return this.http.get<ResponseApi>('http://localhost:4000/api/auth/re-new-token', { headers })
+      .pipe(
+        map(response => {
+          console.log( response );
+
+          if (response.ok) {
+            return true;
+          } else {
+            // Eliminar el token en caso de error
+            localStorage.removeItem('token');
+            localStorage.removeItem('authUserData');
+            return false; // Indicar que la autenticación falló
+          }
+        }),
+        catchError(() => {
+          // Eliminar el token en caso de error
+          localStorage.removeItem('token');
+          return of( false );
+        })
+      );
   }
 
 }

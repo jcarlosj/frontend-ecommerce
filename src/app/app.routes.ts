@@ -8,14 +8,16 @@ import { RegisterComponent } from './pages/public/register/register.component';
 import { LoginComponent } from './pages/public/login/login.component';
 import { DashboardComponent } from './pages/private/dashboard/dashboard.component';
 
+import { authGuard } from './guards/auth.guard';
+
 export const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'products', component: ProductsComponent },
+  { path: 'products', component: ProductsComponent, canActivate: [ authGuard ] },
   { path: 'checkout', component: CheckoutComponent },
   { path: '404', component: PageNotFoundComponent },
-  { path: 'dashboard', component: DashboardComponent },
+  { path: 'dashboard', component: DashboardComponent, canActivate: [ authGuard ] },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: '**', redirectTo: '404', pathMatch: 'full' }
 ];
