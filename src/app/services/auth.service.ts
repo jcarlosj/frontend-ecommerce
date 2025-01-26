@@ -92,32 +92,30 @@ export class AuthService {
     return of( false );
   }
 
-  verifyUser(): Observable<boolean> {
-    // Paso 1: Obtener el Token de localStorage
-    const token = localStorage.getItem( 'token' ) || '';
-    const headers = new HttpHeaders().set( 'X-Token', token );
+  verifyUser() {
+    // Paso 1: Verificar si tenemos un token del lado del cliente
+    const token = localStorage.getItem( 'token' ) ?? '';
 
     if( ! token ) {
-      return of( false );
+        return of( false );
     }
 
-    return this.http.get<ResponseApi>('http://localhost:4000/api/auth/re-new-token', { headers })
-      .pipe(
-        map(response => {
-          console.log( response );
+    // Paso 2: Verificar contra el BackEnd si los datos del token son validos, y adicional a eso, vamos a renovar nuestro token
+    const headers = new HttpHeaders().set( 'X-Token', token );
 
-          if (response.ok) {
-            return true;
-          } else {
-            // Eliminar el token en caso de error
-            localStorage.removeItem('token');
-            localStorage.removeItem('authUserData');
-            return false; // Indicar que la autenticación falló
-          }
-        }),
-        catchError(() => {
-          // Eliminar el token en caso de error
-          localStorage.removeItem('token');
+    return this.http.get<ResponseApi>( 'http://localhost:4000/api/auth/re-new-token', { headers } )
+      .pipe(
+        map( response => {
+          console.log( response );  // Objeto de respuesta { ok: true , newToken: '' }
+          localStorage.setItem( 'token', response.newToken ! );
+
+          return true;
+        } ),
+        catchError( error => {
+          console.error( error );
+          localStorage.removeItem( 'token' );
+          localStorage.removeItem( 'authUserData' );
+
           return of( false );
         })
       );

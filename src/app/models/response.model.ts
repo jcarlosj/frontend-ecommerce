@@ -6,4 +6,5 @@ export interface ResponseApi {
   msg?: string;
   errors?: object;
   token?: string;
+  newToken?: string;
 }
