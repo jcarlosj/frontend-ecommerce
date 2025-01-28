@@ -107,7 +107,8 @@ export class AuthService {
       .pipe(
         map( response => {
           console.log( response );  // Objeto de respuesta { ok: true , newToken: '' }
-          localStorage.setItem( 'token', response.newToken ! );
+          localStorage.setItem( 'token', response.token ! );
+          localStorage.setItem( 'authUserData', JSON.stringify( response.data ! ) );
 
           return true;
         } ),
