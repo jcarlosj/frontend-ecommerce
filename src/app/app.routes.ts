@@ -9,15 +9,17 @@ import { LoginComponent } from './pages/public/login/login.component';
 import { DashboardComponent } from './pages/private/dashboard/dashboard.component';
 
 import { authGuard } from './guards/auth.guard';
+import { CategoriesComponent } from './pages/private/categories/categories.component';
 
 export const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'products', component: ProductsComponent, canActivate: [ authGuard ] },
   { path: 'checkout', component: CheckoutComponent },
   { path: '404', component: PageNotFoundComponent },
   { path: 'dashboard', component: DashboardComponent, canActivate: [ authGuard ] },
+  { path: 'dashboard/products', component: ProductsComponent, canActivate: [ authGuard ] },
+  { path: 'dashboard/categories', component: CategoriesComponent, canActivate: [ authGuard ] },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: '**', redirectTo: '404', pathMatch: 'full' }
 ];
