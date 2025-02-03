@@ -37,7 +37,8 @@
           <ul id="main-menu" class="main-menu main-menu__container">
               @if( userData ) {
                 <li class="menu-item">
-                  <span>Hola, {{ userData.name }}</span>
+                  <div class="gretting">Hola, <span class="user">{{ userData.name }}</span></div>
+                  <small class="role">{{ userData.role }}</small>
                 </li>
               }
               <!-- <li class="menu-item">
