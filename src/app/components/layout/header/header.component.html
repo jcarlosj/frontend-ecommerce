@@ -35,26 +35,30 @@
           </label>
 
           <ul id="main-menu" class="main-menu main-menu__container">
-              @if( userData ) {
+
+              @if( authService.hasRole([ 'admin' ] ) ) {
                 <li class="menu-item">
-                  <div class="gretting">Hola, <span class="user">{{ userData.name }}</span></div>
-                  <small class="role">{{ userData.role }}</small>
+                  <a routerLink="/dashboard/users" routerLinkActive="active-link">Users</a>
+                </li>
+                <li class="menu-item">
+                  <a routerLink="/dashboard/categories" routerLinkActive="active-link">Categories</a>
                 </li>
               }
-              <!-- <li class="menu-item">
-                  <a routerLink="/products" routerLinkActive="active-link">Products</a>
-              </li>
-              <li class="menu-item">
-                  <a routerLink="/product-detail" routerLinkActive="active-link">Product detail</a>
-              </li>
-              <li class="menu-item">
-                  <a routerLink="/cart" routerLinkActive="active-link">Cart</a>
-              </li>
-              <li class="menu-item">
-                <a routerLink="/checkout" routerLinkActive="active-link">Checkout</a>
-              </li> -->
-              <li class="menu-item menu-login">
-                  <ul>
+              @if( authService.hasRole([ 'admin', 'moderator' ] ) ) {
+                <li class="menu-item">
+                    <a routerLink="/dashboard/products" routerLinkActive="active-link">Products</a>
+                </li>
+              }
+              @if( userData ) {
+                <li class="menu-item item-user">
+                  <a routerLink="/dashboard/profile" routerLinkActive="active-link">
+                    <div class="gretting">Hola, <span class="user">{{ userData.name }}</span></div>
+                    <small class="role">Profile ({{ userData.role }})</small>
+                  </a>
+                </li>
+              }
+              <li class="menu-item item-login">
+                  <ul class="menu-login">
                       @if( userData ) {
                         <li class="menu-item">
                           <button (click)="logout()" class="btn btn-outline-primary">Logout</button>
@@ -90,7 +94,7 @@
 
           <ul id="menu-right" class="menu-right">
               <li class="menu-item">
-                  <a href="#" class="link-item">
+                  <a routerLink="/checkout" class="link-item">
                       <fa-icon [icon]="faCartShopping"></fa-icon>
                       <span id="cart-items">1</span>
                   </a>

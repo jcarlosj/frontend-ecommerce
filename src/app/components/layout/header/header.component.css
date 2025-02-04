@@ -36,22 +36,39 @@
       height: inherit;
   }
 
-  .menu-item.menu-login {
+  .menu-item.item-login {
       display: block;
   }
 
   @media ( min-width: 768px ) {
-      .menu-item.menu-login {
+      .menu-item.item-login {
           display: none;
       }
   }
 
-  li.menu-item.menu-login ul {
+  li.menu-item.item-login ul {
       list-style: none;
       display: flex;
       justify-content: space-around;
       align-items: center;
       margin: 0 0 .5rem 0;
+  }
+}
+
+.item-user {
+  .gretting {
+    font-size: 1.4rem;
+    color: var(--paolo-veronese-green);
+    font-weight: 700;
+
+    .user {
+      color: var(--bleu-de-france);
+    }
+  }
+  .role {
+    font-size: 1.2rem;
+    font-style: italic;
+    font-weight: 700;
   }
 }
 
@@ -71,6 +88,7 @@
 }
 
 .menu-item a,
+.menu-item button,
 span.link-menu {
   font-size: 1.7rem;
   text-decoration: none;
@@ -193,6 +211,7 @@ span.link-menu {
       position: initial;
       background: white;
       height: var( --header-height );
+      gap: 2rem;
   }
   .auth-menu {
       display: flex;
