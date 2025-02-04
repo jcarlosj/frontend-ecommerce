@@ -122,4 +122,10 @@ export class AuthService {
       );
   }
 
+  hasRole( expectedRoles: string[] ) : boolean  {
+    const userRole = this._authUserData?.role ? this._authUserData?.role : '';
+
+    return expectedRoles.includes( userRole );
+  }
+
 }
