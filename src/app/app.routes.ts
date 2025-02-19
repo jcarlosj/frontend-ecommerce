@@ -11,6 +11,9 @@ import { CategoriesComponent } from './pages/private/categories/categories.compo
 
 import { authGuard } from './guards/auth.guard';
 import { roleGuard } from './guards/role.guard';
+import { CategoryNewComponent } from './pages/private/categories/category-new/category-new.component';
+import { CategoryEditComponent } from './pages/private/categories/category-edit/category-edit.component';
+import { CategoryDetailComponent } from './pages/private/categories/category-detail/category-detail.component';
 
 
 export const routes: Routes = [
@@ -34,6 +37,24 @@ export const routes: Routes = [
   {
     path: 'dashboard/categories',
     component: CategoriesComponent,
+    canActivate: [ authGuard, roleGuard ],
+    data: { expectedRoles: [ 'admin' ] }
+  },
+  {
+    path: 'dashboard/category/new',
+    component: CategoryNewComponent,
+    canActivate: [ authGuard, roleGuard ],
+    data: { expectedRoles: [ 'admin' ] }
+  },
+  {
+    path: 'dashboard/category/edit',
+    component: CategoryEditComponent,
+    canActivate: [ authGuard, roleGuard ],
+    data: { expectedRoles: [ 'admin' ] }
+  },
+  {
+    path: 'dashboard/category/detail',
+    component: CategoryDetailComponent,
     canActivate: [ authGuard, roleGuard ],
     data: { expectedRoles: [ 'admin' ] }
   },
