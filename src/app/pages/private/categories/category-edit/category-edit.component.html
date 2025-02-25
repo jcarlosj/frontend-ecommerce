@@ -1,1 +1,46 @@
-<p>category-edit works!</p>
+<form
+  class="form form-register"
+  [formGroup]="dataForm"
+  (submit)="onSubmit()"
+>
+  <h1>Category Edit</h1>
+  <div class="form-register__content">
+
+    <div class="field">
+      <label for="name">Category name*</label>
+      <input type="text" formControlName="name" id="name" class="input input-primary" placeholder="Ej: Technology">
+      <div class="error">
+        <!-- Evaluamos los estados del campo 'name' -->
+        @if ( dataForm.get( 'name' )?.invalid && ( dataForm.get( 'name' )?.dirty || dataForm.get( 'name' )?.touched ) ) {
+          @if( dataForm.get( 'name' )?.errors?.[ 'required' ] ) {
+            <small>El campo 'category name' es obligatorio</small>
+          }
+        }
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="description">Description</label>
+      <textarea formControlName="description" id="description" class="input input-primary" placeholder="Technology articles"></textarea>
+      <div class="error">
+        <!-- Evaluamos los estados del campo 'password' -->
+      </div>
+    </div>
+
+    <div class="field message">
+      <span>Mensaje del formulario</span>
+    </div>
+
+    <div class="field">
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="dataForm.invalid"
+        [class.disabled-button]="dataForm.invalid"
+      >Update</button>
+    </div>
+
+
+  </div>
+
+</form>

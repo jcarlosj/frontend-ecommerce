@@ -15,7 +15,7 @@ export class AuthService {
   get userData(): null | DataAuthUser {
     // Paso 1: Leer los datos del localStorage
     const storedData = localStorage.getItem( 'authUserData' );
-    console.log( storedData );
+    // console.log( storedData );
 
     // Paso 2: Verificar si el localStorage posee datos
     if( storedData ) {
