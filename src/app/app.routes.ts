@@ -47,7 +47,7 @@ export const routes: Routes = [
     data: { expectedRoles: [ 'admin' ] }
   },
   {
-    path: 'dashboard/category/edit',
+    path: 'dashboard/category/edit/:id',
     component: CategoryEditComponent,
     canActivate: [ authGuard, roleGuard ],
     data: { expectedRoles: [ 'admin' ] }

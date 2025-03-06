@@ -1,56 +1,61 @@
 import { Component, Input } from '@angular/core';
+import { CategoriesService } from '../../../services/categories.service';
+import { JsonPipe } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-categories',
   standalone: true,
-  imports: [],
+  imports: [ JsonPipe ],
   templateUrl: './categories.component.html',
   styleUrl: './categories.component.css'
 })
 export class CategoriesComponent {
-  @Input() data!: string; // Propiedad de entrada para detectar cambios
+  /** Atributos */
+  categories: any = [];   // Visualizar el contenido en vista
 
-  constructor() {
-    console.log('%c constructor: Se ejecuta cuando Angular instancia el componente.', 'color: blue');
-  }
+  constructor(
+    private categoriesService: CategoriesService,
+    private router: Router
+  ) {}
 
   ngOnInit() {
-    console.log('%c ngOnInit: Se ejecuta una vez después de inicializar todas las entradas del componente.', 'color: green');
+    console.log( 'Inicializar el componente' );
+    this.loadData();
   }
 
-  ngOnChanges() {
-    console.log('%c ngOnChanges: Se ejecuta cuando cambian las entradas del componente.', 'color: orange');
+  loadData() {
+    this.categoriesService.getCategories().subscribe({
+      next: ( data: any ) => {
+        console.log( data );
+        this.categories = data.data;
+      },
+      error: ( error ) => {
+        console.error( error );
+      },
+      complete: () => {
+        console.log( 'Se obtienen las categorias exitosamente' );
+      }
+    });
   }
 
-  ngDoCheck() {
-    console.log('%c ngDoCheck: Se ejecuta en cada verificación de cambios del componente.', 'color: red');
+  removeCategory( id: string ) {
+    this.categoriesService.deleteCategory( id ).subscribe({
+      next: ( data ) => {
+        console.log( data );
+      },
+      error: ( error ) => {
+        console.error( error );
+      },
+      complete: () => {
+        console.log( 'Se elimina la catgoria exitosamente' );
+        this.loadData();
+      }
+    });
   }
 
-  ngAfterContentInit() {
-    console.log('%c ngAfterContentInit: Se ejecuta una vez después de inicializar el contenido del componente.', 'color: purple');
-  }
-
-  ngAfterContentChecked() {
-    console.log('%c ngAfterContentChecked: Se ejecuta cada vez que se verifica el contenido del componente.', 'color: brown');
-  }
-
-  ngAfterViewInit() {
-    console.log('%c ngAfterViewInit: Se ejecuta una vez después de inicializar la vista del componente.', 'color: teal');
-  }
-
-  ngAfterViewChecked() {
-    console.log('%c ngAfterViewChecked: Se ejecuta cada vez que se verifica la vista del componente.', 'color: pink');
-  }
-
-  afterNextRender() {
-    console.log('%c afterNextRender: Se ejecuta una vez después de que todos los componentes han sido renderizados en el DOM.', 'color: navy');
-  }
-
-  afterRender() {
-    console.log('%c afterRender: Se ejecuta cada vez que todos los componentes han sido renderizados en el DOM.', 'color: cyan');
-  }
-
-  ngOnDestroy() {
-    console.log('%c ngOnDestroy: Se ejecuta antes de que el componente sea destruido.', 'color: black');
+  goEditCategory( id: string ) {
+    // Redireccionamos a dashboard/category/edit y concatenamos ID de la categoria
+    this.router.navigateByUrl( 'dashboard/category/edit/' + id );
   }
 }
