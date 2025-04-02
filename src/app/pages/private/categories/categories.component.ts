@@ -1,12 +1,11 @@
 import { Component, Input } from '@angular/core';
 import { CategoriesService } from '../../../services/categories.service';
-import { JsonPipe } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-categories',
   standalone: true,
-  imports: [ JsonPipe ],
+  imports: [ RouterLink ],
   templateUrl: './categories.component.html',
   styleUrl: './categories.component.css'
 })

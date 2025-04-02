@@ -1,8 +1,8 @@
 export interface DataCategory {
-  name: String;
-  description: String;
-  _id?: String;
-  createdAt?: String;
-  updatedAt?: String;
-  __v: Number;
+  name: string;
+  description?: string;
+  _id?: string;
+  createdAt?: string;
+  updatedAt?: string;
+  __v: number;
 }

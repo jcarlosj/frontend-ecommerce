@@ -1,8 +1,7 @@
-import { DataAuthUser } from "./user.model";
-
-export interface ResponseApi {
+/** interface generica */
+export interface ResponseApi<T> {
   ok: boolean;
-  data?: DataAuthUser;
+  data?: T;
   msg?: string;
   errors?: object;
   token?: string;

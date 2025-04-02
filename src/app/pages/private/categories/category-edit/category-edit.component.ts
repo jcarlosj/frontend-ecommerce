@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { CategoriesService } from '../../../../services/categories.service';
 
 @Component({
@@ -27,13 +27,13 @@ export class CategoryEditComponent {
 
   ngOnInit() {
     // Obtener el ID que viene por la URL
-    this.activatedRoute.params.subscribe( ( params: any ) => {
-      if( params.id ) {
-        console.log( params.id );
+    this.activatedRoute.params.subscribe( ( params: Params ) => {
+      if( params[ 'id' ] ) {
+        console.log( params[ 'id' ] );
 
-        this.selectedId = params.id;
+        this.selectedId = params[ 'id' ];
 
-        this.categoriesService.getCategoryById( params.id ).subscribe({
+        this.categoriesService.getCategoryById( params[ 'id' ] ).subscribe({
           next: ( data: any ) => {
             console.log( data );   // { ok: true, data: {...} }
 
@@ -64,18 +64,17 @@ export class CategoryEditComponent {
       this.categoriesService.updateCategoryById( this.selectedId, this.dataForm.value ).subscribe({
         next: ( data ) => {
           console.log( data );
+          console.log( 'Categoria ha sido actualizada' );
+          this.router.navigateByUrl( '/dashboard/categories' );
         },
-        error: ( err ) => {
-          console.error( err );
+        error: ( error ) => {
+          console.error( error );
         },
         complete: () => {
-          this.dataForm.reset();    // Limpiar el formulario
-          this.router.navigateByUrl( 'dashboard/categories' );  // Redireccionando al listado de categorias
+          this.dataForm.reset();
         }
       });
     }
-
-    this.dataForm.reset();
   }
 
 }

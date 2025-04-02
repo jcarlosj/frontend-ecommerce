@@ -166,6 +166,11 @@ a {
 
 }
 
+.panel {
+  display: flex;
+  justify-content: end;
+}
+
 /** Buttons */
 
 .btn {
@@ -194,6 +199,24 @@ a {
   color: var( --bleu-de-france );
   font-size: 1.4rem;
   font-weight: 500;
+}
+
+.btn-secondary {
+  background: var(--OuterSpace);
+  color: white;
+  margin: 0 0 1rem 0;
+  width: 13rem;
+  border-radius: .3rem;
+  height: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: .4rem;
+}
+
+.btn-secondary:hover {
+  background: var(--paolo-veronese-green);
+  border: 2px solid var(--paolo-veronese-green);
 }
 
 /** Forms */

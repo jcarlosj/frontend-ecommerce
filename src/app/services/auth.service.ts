@@ -26,7 +26,7 @@ export class AuthService {
   }
 
   registerUser( newUser: DataAuthUser ): Observable<string> {
-    return this.http.post<ResponseApi>( 'http://localhost:4000/api/auth/register', newUser )
+    return this.http.post<ResponseApi<DataAuthUser>>( 'http://localhost:4000/api/auth/register', newUser )
       .pipe(
         map( ( data: any ) => {
           return 'Registro realizado exitosamente';
@@ -45,9 +45,9 @@ export class AuthService {
   }
 
   loginUser( credentials: DataAuthUser ): Observable<string> {
-    return this.http.post<ResponseApi>( 'http://localhost:4000/api/auth/login', credentials )
+    return this.http.post<ResponseApi<DataAuthUser>>( 'http://localhost:4000/api/auth/login', credentials )
       .pipe(
-        tap( ( data: ResponseApi ) => {
+        tap( ( data: ResponseApi<DataAuthUser> ) => {
           console.log( '>>>>>>>', data );
             // 1. Verificar los datos del usuario
             if( data.data ) {
@@ -103,7 +103,7 @@ export class AuthService {
     // Paso 2: Verificar contra el BackEnd si los datos del token son validos, y adicional a eso, vamos a renovar nuestro token
     const headers = new HttpHeaders().set( 'X-Token', token );
 
-    return this.http.get<ResponseApi>( 'http://localhost:4000/api/auth/re-new-token', { headers } )
+    return this.http.get<ResponseApi<DataAuthUser>>( 'http://localhost:4000/api/auth/re-new-token', { headers } )
       .pipe(
         map( response => {
           console.log( response );  // Objeto de respuesta { ok: true , newToken: '' }
