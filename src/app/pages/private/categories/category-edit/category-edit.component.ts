@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { CategoriesService } from '../../../../services/categories.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-category-edit',
@@ -60,20 +61,41 @@ export class CategoryEditComponent {
     if( this.dataForm.valid ) {
       console.log( this.dataForm.value );
 
-      /** Actualizar los datos de la categoria */
-      this.categoriesService.updateCategoryById( this.selectedId, this.dataForm.value ).subscribe({
-        next: ( data ) => {
-          console.log( data );
-          console.log( 'Categoria ha sido actualizada' );
+      Swal.fire({
+        title: "Do you want to save the changes?",
+        showDenyButton: true,
+        showCancelButton: true,
+        confirmButtonText: "Save",
+        denyButtonText: `Don't save`
+      }).then((result) => {
+        /* Read more about isConfirmed, isDenied below */
+        if (result.isConfirmed) {
+
+          /** Actualizar los datos de la categoria */
+          this.categoriesService.updateCategoryById( this.selectedId, this.dataForm.value ).subscribe({
+            next: ( data ) => {
+              console.log( data );
+              console.log( 'Categoria ha sido actualizada' );
+              this.router.navigateByUrl( '/dashboard/categories' );
+            },
+            error: ( error ) => {
+              console.error( error );
+            },
+            complete: () => {
+              this.dataForm.reset();
+            }
+          });
+
+          Swal.fire("Saved!", "", "success");
+        } else if (result.isDenied) {
+          Swal.fire("Changes are not saved", "", "info");
+        } else {
+          console.log( 'Cancelo' );
           this.router.navigateByUrl( '/dashboard/categories' );
-        },
-        error: ( error ) => {
-          console.error( error );
-        },
-        complete: () => {
-          this.dataForm.reset();
         }
+
       });
+
     }
   }
 

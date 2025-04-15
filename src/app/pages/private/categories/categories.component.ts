@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { CategoriesService } from '../../../services/categories.service';
 import { Router, RouterLink } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-categories',
@@ -39,18 +40,40 @@ export class CategoriesComponent {
   }
 
   removeCategory( id: string ) {
-    this.categoriesService.deleteCategory( id ).subscribe({
-      next: ( data ) => {
-        console.log( data );
-      },
-      error: ( error ) => {
-        console.error( error );
-      },
-      complete: () => {
-        console.log( 'Se elimina la catgoria exitosamente' );
-        this.loadData();
+
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+
+        /** El CategoriService esta eliminiando la categoria */
+        this.categoriesService.deleteCategory( id ).subscribe({
+          next: ( data ) => {
+            console.log( data );
+          },
+          error: ( error ) => {
+            console.error( error );
+          },
+          complete: () => {
+            console.log( 'Se elimina la catgoria exitosamente' );
+            this.loadData();
+          }
+        });
+
+        Swal.fire({
+          title: "Deleted!",
+          text: "Your file has been deleted.",
+          icon: "success"
+        });
       }
     });
+
   }
 
   goEditCategory( id: string ) {
