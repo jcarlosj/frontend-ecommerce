@@ -565,3 +565,76 @@ input, textarea {
     margin: 0 0 1.3rem 0;
   }
 }
+
+.state {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 1rem;
+  margin: 2rem 0;
+}
+
+
+h2 {
+  color: var( --bleu-de-france ); /* Color azul del logo (ajusta si es necesario) */
+  margin: 3rem 0; /* Margen superior, derecho, inferior, izquierdo */
+}
+
+/* Estilos para la tabla de categorías */
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.data-table th,
+.data-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.data-table th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+/* Reducir la altura de las filas */
+.data-table td {
+  padding: 6px 8px; /* Reducir el padding vertical */
+}
+
+/* Estilos para las filas alternas */
+.data-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* Estilos para los botones de acción */
+.data-table .actions {
+  display: flex; /* Usar flexbox para alinear los botones */
+  gap: 5px; /* Espacio entre los botones */
+}
+
+.data-table .actions a {
+  /* padding: 4px 8px; /* Reducir el padding de los botones */
+  text-decoration: none;
+  border-radius: 3px;
+  font-size: 12px; /* Reducir el tamaño de la fuente */
+}
+
+.data-table .actions a.btn-outline-primary {
+  background-color: transparent;
+  border: 1px solid var( --bleu-de-france ); /* Color del botón Editar */
+  color: var( --bleu-de-france );
+}
+
+.data-table .actions a.btn-primary {
+  background-color: var( --bleu-de-france ); /* Color del botón Eliminar */
+  border: 1px solid var( --bleu-de-france ); /* Color del botón Editar */
+  color: white;
+}
+
+/* Estilos al pasar el mouse por encima de los botones */
+.data-table .actions a:hover {
+  opacity: 0.8;
+}

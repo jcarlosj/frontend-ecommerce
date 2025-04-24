@@ -1,0 +1,138 @@
+<form
+  class="form form-register"
+  [formGroup]="formData"
+  (ngSubmit)="onSubmit()"
+>
+  <h1>Product Register</h1>
+  <div class="form-register__content">
+
+    <div class="field">
+      <label for="reference-code">Reference code*</label>
+      <input type="text" formControlName="reference" id="reference-code" class="input input-primary" placeholder="Ej: TR-32456Wl">
+      <div class="error">
+        <!-- Evaluamos los estados del campo 'referenceCode' -->
+        @if( this.formData.get( 'reference' )?.invalid && ( this.formData.get( 'reference' )?.dirty || this.formData.get( 'reference' )?.touched ) ) {
+          @if( this.formData.get( 'reference' )?.errors?.[ 'required' ] ) {
+            <span>Reference Code is required</span>
+          }
+          @if( this.formData.get( 'reference' )?.errors?.[ 'minlength' ] ) {
+            <span>Reference code must be at least 8 characters long</span>
+          }
+          @if( this.formData.get( 'reference' )?.errors?.[ 'maxlength' ] ) {
+            <span>Reference code must be at most 15 characters long</span>
+          }
+        }
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="name">Product name*</label>
+      <input type="text" formControlName="name" id="name" class="input input-primary" placeholder="Ej: PlayStation 5 Pro">
+      <div class="error">
+        <!-- Evaluamos los estados del campo 'name' -->
+        @if( this.formData.get( 'name' )?.invalid && ( this.formData.get( 'name' )?.dirty || this.formData.get( 'name' )?.touched ) ) {
+          @if( this.formData.get( 'name' )?.errors?.[ 'required' ] ) {
+            <span>Name product is required</span>
+          }
+        }
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="description">Description</label>
+      <textarea formControlName="description" id="description" class="input input-primary" placeholder="Ej: Brief detailed description of the product"></textarea>
+      <div class="error"></div>
+    </div>
+
+    <div class="field">
+      <label for="price">Product price*</label>
+      <input type="number" formControlName="price" id="price" class="input input-primary" placeholder="Ej: 130">
+      <div class="error">
+        <!-- Evaluamos los estados del campo 'price' -->
+        @if( this.formData.get( 'price' )?.invalid && ( this.formData.get( 'price' )?.dirty || this.formData.get( 'price' )?.touched ) ) {
+          @if( this.formData.get( 'price' )?.errors?.[ 'required' ] ) {
+            <span>Price product is required</span>
+          }
+          @if( this.formData.get( 'price' )?.errors?.[ 'min' ] ) {
+            <span>Price product cannot be less than zero</span>
+          }
+        }
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="quantity">Quantity</label>
+      <input type="number" formControlName="quantity" id="quantity" class="input input-primary" placeholder="Ej: 500">
+      <div class="error">
+        <!-- Evaluamos los estados del campo 'quantity' -->
+        @if( this.formData.get( 'quantity' )?.invalid && ( this.formData.get( 'quantity' )?.dirty || this.formData.get( 'quantity' )?.touched ) ) {
+          @if( this.formData.get( 'quantity' )?.errors?.[ 'required' ] ) {
+            <span>Quantity product is required</span>
+          }
+          @if( this.formData.get( 'quantity' )?.errors?.[ 'min' ] ) {
+            <span>Quantity product cannot be less than one</span>
+          }
+        }
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="category">Product category</label>
+      <select formControlName="category" id="category" class="input input-primary">
+        <option value="">Seleccione...</option>
+        @for ( category of categories; track $index ) {
+          <option [value]="category._id">{{ category.name }}</option>
+        }
+      </select>
+      <div class="error">
+        <!-- Evaluamos los estados del campo 'category' -->
+        @if( this.formData.get( 'category' )?.invalid && ( this.formData.get( 'category' )?.dirty || this.formData.get( 'category' )?.touched ) ) {
+          @if( this.formData.get( 'category' )?.errors?.[ 'required' ] ) {
+            <span>Category product is required</span>
+          }
+        }
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="urlImage">Product image</label>
+      <input type="text" formControlName="urlImage" id="urlImage" class="input input-primary" placeholder="Ej: http://www.bitstore.co/images/playstation-5-pro.png">
+      <div class="error"></div>
+    </div>
+
+    <div class="field">
+      <label>Product availability *</label>
+      <div class="state">
+        <input type="radio" formControlName="state" id="stateAvailable" [value]="true" />
+        <label for="stateAvailable">Available</label>
+        <input type="radio" formControlName="state" id="stateNotAvailable" [value]="false" />
+        <label for="stateNotAvailable">NotAvailable</label>
+      </div>
+      <div class="error">
+        <!-- Evaluamos los estados del campo 'state' -->
+        @if( this.formData.get( 'state' )?.invalid && ( this.formData.get( 'state' )?.dirty || this.formData.get( 'state' )?.touched ) ) {
+          @if( this.formData.get( 'state' )?.errors?.[ 'required' ] ) {
+            <span>Selecting a state is required</span>
+          }
+        }
+      </div>
+    </div>
+
+    <!-- <div class="field message">
+      <span>Mensaje del formulario</span>
+    </div> -->
+
+    <div class="field">
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="formData.invalid"
+        [class.disabled-button]="formData.invalid"
+      >Save</button>
+    </div>
+
+
+  </div>
+
+</form>
+

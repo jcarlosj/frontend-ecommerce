@@ -1,1 +1,36 @@
-<p>products works!</p>
+<h2>Product List</h2>
+
+<!-- <pre>{{ categories | json }}</pre> -->
+
+<div class="container container-sm container-md container-lg">
+  <div class="panel">
+    <a routerLink="/dashboard/product/new" class="btn btn-secondary">New Product</a>
+  </div>
+  <table class="data-table">
+      <thead>
+          <tr>
+              <th>Reference code</th>
+              <th>Product name</th>
+              <th>Category</th>
+              <th>Quantity</th>
+              <th>Price</th>
+              <th>Actions</th>
+          </tr>
+      </thead>
+      <tbody>
+        @for ( product of products; track $index ) {
+          <tr>
+            <td>{{ product.reference }}</td>
+            <td>{{ product.name }}</td>
+            <td>{{ product.category?.name }}</td>
+            <td>{{ product.quantity }}</td>
+            <td>{{ product.price | currency }}</td>
+            <td class="actions">
+                <a class="btn btn-outline-primary" [routerLink]="[ '/dashboard', 'product', 'edit', product._id ]">Edit</a>
+                <a class="btn btn-primary" (click)="deleteProduct( product._id ?? '' )" >Delete</a>
+            </td>
+          </tr>
+        }
+      </tbody>
+  </table>
+</div>

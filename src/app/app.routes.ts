@@ -14,6 +14,9 @@ import { roleGuard } from './guards/role.guard';
 import { CategoryNewComponent } from './pages/private/categories/category-new/category-new.component';
 import { CategoryEditComponent } from './pages/private/categories/category-edit/category-edit.component';
 import { CategoryDetailComponent } from './pages/private/categories/category-detail/category-detail.component';
+import { ProductNewComponent } from './pages/private/products/product-new/product-new.component';
+import { ProductDetailComponent } from './pages/private/products/product-detail/product-detail.component';
+import { ProductEditComponent } from './pages/private/products/product-edit/product-edit.component';
 
 
 export const routes: Routes = [
@@ -47,16 +50,32 @@ export const routes: Routes = [
     data: { expectedRoles: [ 'admin' ] }
   },
   {
+    path: 'dashboard/category/detail',
+    component: CategoryDetailComponent,
+    canActivate: [ authGuard, roleGuard ],
+    data: { expectedRoles: [ 'admin' ] }
+  },
+  {
+    path: 'dashboard/product/new',
+    component: ProductNewComponent,
+    canActivate: [ authGuard, roleGuard ],
+    data: { expectedRoles: [ 'moderator', 'admin' ] }
+  },
+  {
+    path: 'dashboard/product/detail',
+    component: ProductDetailComponent
+  },
+  {
     path: 'dashboard/category/edit/:id',
     component: CategoryEditComponent,
     canActivate: [ authGuard, roleGuard ],
     data: { expectedRoles: [ 'admin' ] }
   },
   {
-    path: 'dashboard/category/detail',
-    component: CategoryDetailComponent,
+    path: 'dashboard/product/edit/:id',
+    component: ProductEditComponent,
     canActivate: [ authGuard, roleGuard ],
-    data: { expectedRoles: [ 'admin' ] }
+    data: { expectedRoles: [ 'moderator', 'admin' ] }
   },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: '**', redirectTo: '404', pathMatch: 'full' }
