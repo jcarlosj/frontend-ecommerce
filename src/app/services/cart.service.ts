@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { DataProduct } from '../models/product.model';
 import { CartItem } from '../models/cart-item.model';
+import Swal from 'sweetalert2';
 
 @Injectable({
   providedIn: 'root'
@@ -31,7 +32,15 @@ export class CartService {
 
     // Verificar que la cantidad del producto NO este indefinida
     if( product.quantity === undefined ) {
-      alert( 'La cantidad de producto no esta definida' );
+      // alert( 'La cantidad de producto no esta definida' );
+
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: `Product quantity is undefined`,
+        footer: '<a href="#">Why do I have this issue?</a>'
+      });
+
       return;
     }
 
@@ -39,9 +48,26 @@ export class CartService {
         // Incrementar en 1 la propiedad de cartQuantity, siempre que haya stock suficiente
         if( existingItem.cartQuantity + 1 <= product.quantity ) {
           existingItem.cartQuantity ++;
+
+          Swal.fire({
+            position: "bottom-end",
+            icon: "success",
+            title: `You have added ${ existingItem.cartQuantity } ${ existingItem.product.name } to the cart`,
+            showConfirmButton: false,
+            timer: 1500
+          });
+
         }
         else {
-          alert( `Solo hay ${ product.quantity } unidades disponibles` );
+          // alert( `Solo hay ${ product.quantity } unidades disponibles` );
+
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: `Only ${ product.quantity } units available`,
+            footer: '<a href="#">Why do I have this issue?</a>'
+          });
+
           return;
         }
     }
@@ -54,9 +80,25 @@ export class CartService {
           }
 
           this.cartItems.push( newCartItem );
+
+          Swal.fire({
+            position: "bottom-end",
+            icon: "success",
+            title: `You have added 1 ${ product.name } to the cart`,
+            showConfirmButton: false,
+            timer: 1500
+          });
         }
         else {
-          alert( 'Producto sin stock disponible' );
+          // alert( 'Producto sin stock disponible' );
+
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Product out of stock",
+            footer: '<a href="#">Why do I have this issue?</a>'
+          });
+
           return;
         }
     }
