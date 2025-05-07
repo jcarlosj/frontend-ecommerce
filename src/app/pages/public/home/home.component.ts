@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ProductsService } from '../../../services/products.service';
 import { DataProduct } from '../../../models/product.model';
 import { CurrencyPipe } from '@angular/common';
+import { CartService } from '../../../services/cart.service';
 
 @Component({
   selector: 'app-home',
@@ -13,7 +14,10 @@ import { CurrencyPipe } from '@angular/common';
 export class HomeComponent {
   products: DataProduct[] | undefined;
 
-  constructor( private productsService: ProductsService ) {}
+  constructor(
+    private productsService: ProductsService,
+    private cartService: CartService
+  ) {}
 
   ngOnInit() {
     /** Obtener todos los productos del backend */
@@ -30,4 +34,7 @@ export class HomeComponent {
     });
   }
 
+  addToCard( product: DataProduct ) {
+    this.cartService.addToCart( product );
+  }
 }

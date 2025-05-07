@@ -63,7 +63,7 @@ export class CategoryEditComponent {
 
       Swal.fire({
         title: "Do you want to save the changes?",
-        showDenyButton: true,
+        showDenyButton: false,
         showCancelButton: true,
         confirmButtonText: "Save",
         denyButtonText: `Don't save`

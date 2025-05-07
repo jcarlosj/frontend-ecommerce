@@ -22,8 +22,8 @@
                   <p class="product-item__price product__price">{{ product.price | currency }}</p>
                 </div>
                 <footer class="footer-product">
-                  <a class="btn btn-primary" href="/product-add.html">Agregar
-                    al carrito</a>
+                  <button class="btn btn-primary" (click)="addToCard( product )">Agregar
+                    al carrito</button>
                 </footer>
             </div>
           </li>
