@@ -1,1 +1,211 @@
-<p>checkout works!</p>
+<!-- <pre>{{ cartItems | json }}</pre> -->
+
+<div class="checkout-container">
+  <!-- Cart Section -->
+  <div class="cart-section">
+    <h2 class="cart-title">Shopping Cart</h2>
+
+    <!-- Free Shipping Message -->
+    <div class="free-shipping-message">
+      <span class="free-shipping-text">FREE SHIPPING FOR MEMBERS.</span>
+      <a href="#" class="join-now-link">Join now or Login</a>
+    </div>
+
+    <!-- Cart Items -->
+
+    <div class="cart-items">
+
+      @for ( cartItem of cartItems; track $index ) {
+
+        <div class="cart-item">
+          <img [src]="cartItem.product.urlImage" [alt]="cartItem.product.name" class="product-image" />
+
+          <!-- Detalles del producto -->
+          <div class="product-details">
+            <h3 class="product-name">{{ cartItem.product.name }}</h3>
+            <p class="product-category">{{ cartItem.product.category?.name }}</p>
+            <p class="product-description">{{ cartItem.product.description }}</p>
+            <div class="product-unit-price">
+              <p class="product-unit-price__text">Unit price</p>
+              <p class="product-unit-price__value">{{ cartItem.product.price | currency }}</p>
+            </div>
+
+            <div class="action-buttons">
+              <a href="#" class="move-to-favorites">Move to Favorites</a>
+              <a href="#" class="remove-item">Remove</a>
+            </div>
+          </div>
+
+          <!-- Opciones del producto: Precio + Cantidad -->
+          <div class="product-options">
+            <div class="price-and-quantity">
+              <div class="product-price">
+                <p class="product-price__text">Total price</p>
+                <p class="product-price__value">{{ cartItem.product.price | currency }}</p>
+              </div>
+              <div class="quantity-control">
+                <button class="quantity-box quantity-button">-</button>
+                <input type="text" class="quantity-box quantity-input" [value]="cartItem.cartQuantity" />
+                <button class="quantity-box quantity-button">+</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      }
+
+    </div>
+
+
+  </div>
+
+  <!-- Summary Section -->
+  <aside class="aside">
+    <div class="summary-section">
+      <h2 class="summary-title">Summary</h2>
+
+      <!-- Summary Details -->
+      <div class="summary-details">
+        <div class="summary-row">
+          <span class="summary-label">Subtotal</span>
+          <span class="summary-value">$225.00</span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-label">Estimated Shipping & Handling</span>
+          <span class="summary-value">$0.00</span>
+        </div>
+        <div class="summary-row">
+          <span class="summary-label">Estimated Tax</span>
+          <span class="summary-value">$0.00</span>
+        </div>
+        <hr />
+        <div class="summary-row total-row">
+          <span class="summary-label">TOTAL</span>
+          <span class="summary-value">$225.00</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="contact-section">
+
+        <form class="contact-form">
+          <!-- Sección de información de contacto -->
+          <h2 class="contact-title">Contact information</h2>
+
+          <hr />
+
+          <!-- Campo de email -->
+          <section class="form-section">
+            <h3 class="section-title">Email</h3>
+
+            <div class="name-fields">
+              <div class="form-group">
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  placeholder="Enter a valid email">
+                <div class="error-message" style="display: none;">
+                  Please enter a valid email address
+                </div>
+              </div>
+
+              <div class="checkbox-group">
+                <input
+                  type="checkbox"
+                  id="newsletter"
+                  name="newsletter">
+                <label for="newsletter">Email me with news and offers</label>
+              </div>
+            </div>
+
+          </section>
+
+          <hr>
+
+          <!-- Dirección de envío -->
+          <section class="form-section">
+            <h3 class="section-title">Shipping address</h3>
+
+            <!-- País/Región -->
+            <div class="name-fields">
+              <div class="form-group">
+                <label for="country">Country/region</label>
+              </div>
+              <div class="form-group">
+                <div class="select-wrapper">
+                  <select id="country" name="country" class="form-select">
+                    <option value="" disabled selected>Select a country</option>
+                    <option value="US">United States</option>
+                    <option value="CA">Canada</option>
+                    <option value="MX">Mexico</option>
+                    <!-- Más países pueden ser añadidos aquí -->
+                  </select>
+                </div>
+              </div>
+            </div>
+
+
+            <!-- Nombre -->
+            <div class="name-fields">
+              <div class="form-group half-width">
+                <input
+                  type="text"
+                  id="firstName"
+                  name="firstName"
+                  placeholder="Enter a first name">
+                <div class="error-message" style="display: none;">
+                  Please enter your first name
+                </div>
+              </div>
+
+              <div class="form-group half-width">
+                <input
+                  type="text"
+                  id="lastName"
+                  name="lastName"
+                  placeholder="Enter a last name">
+                <div class="error-message" style="display: none;">
+                  Please enter your last name
+                </div>
+              </div>
+            </div>
+
+            <!-- Empresa -->
+             <div class="name-fields">
+              <div class="form-group">
+                <input
+                  type="text"
+                  id="company"
+                  name="company"
+                  placeholder="Company (required for business addresses)">
+              </div>
+
+              <!-- Dirección -->
+              <div class="form-group">
+                <input
+                  type="text"
+                  id="address"
+                  name="address"
+                  placeholder="Enter an address">
+                <div class="error-message" style="display: none;">
+                  Please enter your shipping address
+                </div>
+              </div>
+             </div>
+
+          </section>
+
+          <div class="form-actions">
+            <!-- Checkout Buttons -->
+            <div class="checkout-buttons">
+              <button class="checkout-button">Continue to shipping</button>
+            </div>
+          </div>
+        </form>
+
+    </div>
+  </aside>
+
+</div>

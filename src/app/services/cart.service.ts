@@ -11,7 +11,7 @@ export class CartService {
 
   constructor() { }
 
-  private getCartItems() {
+  getCartItems() {
     const cartString = localStorage.getItem( 'shoppingCart' );
     return cartString ? JSON.parse( cartString ) : [];
   }
