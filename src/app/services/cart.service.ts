@@ -20,127 +20,141 @@ export class CartService {
     localStorage.setItem( 'shoppingCart', JSON.stringify( cart ) );
   }
 
-  updateToCart(product: DataProduct, change: number): void {
+  private findCartItem(product: DataProduct): CartItem | undefined {
+    return this.cartItems.find(item => item.product._id === product._id);
+  }
+
+  private validateProductQuantity(product: DataProduct): boolean {
+    if (product.quantity === undefined) {
+      this.showErrorAlert( `Product quantity is undefined` );
+      return true; // indica validación fallida
+    }
+    return false;
+  }
+
+  private handleAddition(existingItem: CartItem, product: DataProduct, newQuantity: number): void {
+    if (product.quantity === undefined) {
+      this.showErrorAlert( `Product quantity is undefined` );
+      return;
+    }
+
+    if (newQuantity > product.quantity) {
+      this.showErrorAlert( `Only ${product.quantity} units available. Cannot add ${newQuantity}.` );
+      return;
+    }
+
+    existingItem.cartQuantity = newQuantity;
+    this.showSuccessAlert( `You have added ${newQuantity} ${existingItem.product.name}(s) to the cart` );
+  }
+
+  private handleSubtraction(existingItem: CartItem, product: DataProduct, newQuantity: number): void {
+    if (newQuantity < 0) {
+      this.showErrorAlert( `You only have ${existingItem.cartQuantity} items selected. Cannot remove ${Math.abs(newQuantity)}.` );
+      return;
+    }
+
+    existingItem.cartQuantity = newQuantity;
+    this.showSuccessAlert( `You have removed ${newQuantity} ${product.name}(s) from the cart` );
+  }
+
+  private showSuccessAlert(message: string): void {
+    Swal.fire({
+      position: "bottom-end",
+      icon: "success",
+      title: message,
+      showConfirmButton: false,
+      timer: 1500
+    });
+  }
+
+  private showErrorAlert(text: string): void {
+    Swal.fire({
+      icon: "error",
+      title: "Oops...",
+      text: text,
+      footer: '<a href="#">Why do I have this issue?</a>'
+    });
+  }
+
+  private updateCartItemQuantity(existingItem: CartItem, product: DataProduct, change: number): void {
+    let newQuantity: number = ( change === 0 ) ? 0 : existingItem.cartQuantity + change;
+
+    // ✅ Siempre actualizar la cantidad, incluso si es 0
+    existingItem.cartQuantity = newQuantity;
+
+    // ✅ Solo manejar adición o sustracción si hace falta
+    if (change > 0) {
+      this.handleAddition(existingItem, product, newQuantity);
+    } else if (change < 0) {
+      this.handleSubtraction(existingItem, product, newQuantity);
+    }
+
+    // ✅ Asegurarse de eliminar productos con cartQuantity <= 0
+    this.removeProductIfNecessary();
+  }
+
+  private addToCartWhenNew(product: DataProduct, change: number): void {
+    if (change > 0) {
+      if (product.quantity === undefined) {
+        this.showErrorAlert( `Product quantity is undefined` );
+        return;
+      }
+
+      if (product.quantity >= change) {
+        const newCartItem: CartItem = {
+          product: product,
+          cartQuantity: change
+        };
+
+        this.cartItems.push(newCartItem);
+
+        this.showSuccessAlert( `You have added ${change} ${product.name}(s) to the cart` );
+      } else {
+        this.showErrorAlert( `Only ${product.quantity} units available. Cannot add ${ change }.` );
+      }
+    }
+  }
+
+  private removeProductIfNecessary(): void {
+    const removedItems = this.cartItems.filter(item => item.cartQuantity <= 0);
+
+    if (removedItems.length > 0) {
+      // Filtrar productos con cartQuantity > 0
+      this.cartItems = this.cartItems.filter(item => item.cartQuantity > 0);
+
+      // Mostrar mensaje de éxito por cada producto eliminado
+      removedItems.forEach(item => {
+        this.showSuccessAlert( `You have removed ${ removedItems.length } from the cart` );
+      });
+    }
+  }
+
+  updateToCart2( product: DataProduct, change: number ) {
     // Paso 1: Obtener carrito desde localStorage
     this.cartItems = this.getCartItems();
 
     // Paso 2: Buscar si el producto ya está en el carrito
-    const existingItem = this.cartItems.find(
-      (item: CartItem) => item.product._id === product._id
-    );
+    const existingItem = this.findCartItem( product );
 
     // Paso 3: Validar que haya cantidad definida
-    if (product.quantity === undefined) {
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: `Product quantity is undefined`,
-        footer: '<a href="#">Why do I have this issue?</a>'
-      });
-      return;
-    }
+    if (this.validateProductQuantity(product)) return;
 
     // ✨ CASO ESPECIAL: Si el cambio es negativo y el producto NO está en el carrito
     if (!existingItem && change < 0) {
-      console.warn('Cannot decrease quantity of a product not in cart');
-
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: `Cannot decrease quantity of a product not in cart`,
-        footer: '<a href="#">Why do I have this issue?</a>'
-      });
-
+      this.showErrorAlert( `Cannot decrease quantity of a product not in cart` );
       return;
-    }
-
-    let newQuantity: number;
+    };
 
     // Paso 4: Si el producto ya está en el carrito
     if (existingItem) {
-      // Si el usuario manda `change === 0`, forzamos a 0
-      if (change === 0) {
-        newQuantity = 0;
-      } else {
-        newQuantity = existingItem.cartQuantity + change;
-      }
-
-      // Validar stock máximo (solo para cambios positivos)
-      if (change > 0 && newQuantity > product.quantity) {
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: `Only ${product.quantity} units available. Cannot add ${change} more.`,
-          footer: '<a href="#">Why do I have this issue?</a>'
-        });
-
-        return; // No hacer cambios
-      }
-
-      // Validar que no se reste más de lo que tiene
-      if (change < 0 && newQuantity < 0) {
-        Swal.fire({
-          icon: "error",
-          title: "Oops...",
-          text: `You only have ${existingItem.cartQuantity} items selected. Cannot remove ${Math.abs(change)}.`,
-          footer: '<a href="#">Why do I have this issue?</a>'
-        });
-
-        return; // No hacer cambios
-      }
-
-      // Aplicar el cambio
-      existingItem.cartQuantity = newQuantity;
-
-      // Mostrar mensaje solo si se agregan elementos
-      if (change > 0) {
-        Swal.fire({
-          position: "bottom-end",
-          icon: "success",
-          title: `You have added ${existingItem.cartQuantity} ${product.name}(s) to the cart`,
-          showConfirmButton: false,
-          timer: 1500
-        });
-      }
+      this.updateCartItemQuantity(existingItem, product, change);
     } else {
-      // Paso 5: Si no existe y se agrega (+change)
-      if (change > 0) {
-        if (product.quantity >= change) {
-          const newCartItem: CartItem = {
-            product: product,
-            cartQuantity: change
-          };
-
-          this.cartItems.push(newCartItem);
-
-          Swal.fire({
-            position: "bottom-end",
-            icon: "success",
-            title: `You have added ${change} ${product.name}(s) to the cart`,
-            showConfirmButton: false,
-            timer: 1500
-          });
-        } else {
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: `Only ${product.quantity} units available. Cannot add ${change}.`,
-            footer: '<a href="#">Why do I have this issue?</a>'
-          });
-          return;
-        }
-      } else {
-        // No existe y se intenta restar o setear a 0
-        return;
-      }
+      this.addToCartWhenNew(product, change);
     }
 
-    // Paso 6: Eliminar todos los productos con cartQuantity <= 0
-    this.cartItems = this.cartItems.filter(item => item.cartQuantity > 0);
-
-    // Paso 7: Guardar carrito actualizado
+    this.removeProductIfNecessary();
     this.saveCart(this.cartItems);
-  }
 
+  }
 
 }

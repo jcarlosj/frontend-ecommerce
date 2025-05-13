@@ -21,17 +21,17 @@ export class CheckoutComponent {
   }
 
   onIncrease( product: DataProduct ) {
-    this.cartService.updateToCart( product, +1 );
+    this.cartService.updateToCart2( product, +1 );
     this.cartItems = this.cartService.getCartItems();
   }
 
   onDecrease( product: DataProduct ) {
-    this.cartService.updateToCart( product, -1 );
+    this.cartService.updateToCart2( product, -1 );
     this.cartItems = this.cartService.getCartItems();
   }
 
   onRemove( product: DataProduct ) {
-    this.cartService.updateToCart( product, 0 );
+    this.cartService.updateToCart2( product, 0 );
     this.cartItems = this.cartService.getCartItems();
   }
 }
