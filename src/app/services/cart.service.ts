@@ -129,7 +129,7 @@ export class CartService {
     }
   }
 
-  updateToCart2( product: DataProduct, change: number ) {
+  updateToCart( product: DataProduct, change: number ) {
     // Paso 1: Obtener carrito desde localStorage
     this.cartItems = this.getCartItems();
 
