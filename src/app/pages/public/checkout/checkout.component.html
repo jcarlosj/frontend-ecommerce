@@ -32,7 +32,7 @@
 
             <div class="action-buttons">
               <a href="#" class="move-to-favorites">Move to Favorites</a>
-              <a href="#" class="remove-item">Remove</a>
+              <button (click)="onRemove( cartItem.product )">Remove</button>
             </div>
           </div>
 
@@ -44,9 +44,9 @@
                 <p class="product-price__value">{{ cartItem.product.price | currency }}</p>
               </div>
               <div class="quantity-control">
-                <button class="quantity-box quantity-button">-</button>
+                <button class="quantity-box quantity-button" (click)="onDecrease( cartItem.product )" >-</button>
                 <input type="text" class="quantity-box quantity-input" [value]="cartItem.cartQuantity" />
-                <button class="quantity-box quantity-button">+</button>
+                <button class="quantity-box quantity-button" (click)="onIncrease( cartItem.product )">+</button>
               </div>
             </div>
           </div>
