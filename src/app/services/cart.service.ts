@@ -108,12 +108,12 @@ export class CartService {
     this.saveCart( this.cartItems );
   }
 
-  updateToCart( product: DataProduct, chance: number = 0 ) {
+  updateToCart( product: DataProduct, change: number = 0 ) {
     // Paso 1: Obtener todos los productos agregados en el localStorage
     this.cartItems = this.getCartItems();
 
     // Validando si la cantidad de producto esta disponible
-    if( product.quantity && Math.abs( chance ) <= product.quantity ) {
+    if( product.quantity ) {
 
       // Buscamos si el producto existe en el carrito
       const existingItem = this.cartItems.find( ( item: CartItem ) => {
@@ -122,12 +122,45 @@ export class CartService {
 
       // Validar si Existe el producto en el carrito
       if( existingItem ) {
-        console.log( 'Existe el producto en el carrito' );
+        // console.log( 'Existe el producto en el carrito' );
+        // TODO: No agrega el valor disponible del producto
+        // existingItem.cartQuantity = ( change === 0 ) ? 0 : existingItem.cartQuantity + change;
+
+        if( change === 0 ) {
+          existingItem.cartQuantity = 0;              // Establecerlo en cero para eliminarlo del carrito
+          console.log( `Elimina el ${ product.name } del carrito` );
+        }
+        else if( change < 0 ) {
+          existingItem.cartQuantity = existingItem.cartQuantity + change;   // Decrementarlo
+          console.log( `Elimina ${ Math.abs( change ) } ${ product.name } del carrito` );
+        }
+        else if ( ( existingItem.cartQuantity + change ) <= product.quantity ) {
+          existingItem.cartQuantity = existingItem.cartQuantity + change;   // Incrementarlo
+          console.log( `Agrega ${ change } ${ product.name } al carrito` );
+        }
       }
       else {
-        console.log( 'No existe el producto en el carrito' );
+        // console.log( 'No existe el producto en el carrito' );
+        const newCartItem: CartItem = {
+          product,
+          cartQuantity: change
+        };
+
+        this.cartItems.push( newCartItem );
+        console.log( `Agrega ${ change } ${ product.name } nuevo/s al carrito` );
       }
 
     }
+
+    const removedItems = this.cartItems.filter( ( item ) => item.cartQuantity <= 0 );
+    // console.log( 'removedItems: ', removedItems );
+
+    if( removedItems.length > 0 ) {
+      this.cartItems = this.cartItems.filter( ( item ) => item.cartQuantity > 0 );
+    }
+
+
+    // Paso 3: Guardar los productos agregados al carrito en el localStorage
+    this.saveCart( this.cartItems );
   }
 }

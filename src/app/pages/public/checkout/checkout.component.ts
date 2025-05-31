@@ -23,16 +23,19 @@ export class CheckoutComponent {
   onIncrease( product: DataProduct ) {
     console.log( 'Incrementa en 1 el producto seleccionado' );
     this.cartService.updateToCart( product, +1 );
+    this.ngOnInit();
   }
 
   onDecrease( product: DataProduct ) {
     console.log( 'Decrementa en 1 el producto seleccionado' );
     this.cartService.updateToCart( product, -1 );
+    this.ngOnInit();
   }
 
   onRemove( product: DataProduct ) {
     console.log( 'Establece el valor en 0 del producto seleccionado' );
     this.cartService.updateToCart( product, 0 );
+    this.ngOnInit();
   }
 
 }
