@@ -107,4 +107,27 @@ export class CartService {
     // Paso 3: Guardar los productos agregados al carrito en el localStorage
     this.saveCart( this.cartItems );
   }
+
+  updateToCart( product: DataProduct, chance: number = 0 ) {
+    // Paso 1: Obtener todos los productos agregados en el localStorage
+    this.cartItems = this.getCartItems();
+
+    // Validando si la cantidad de producto esta disponible
+    if( product.quantity && Math.abs( chance ) <= product.quantity ) {
+
+      // Buscamos si el producto existe en el carrito
+      const existingItem = this.cartItems.find( ( item: CartItem ) => {
+        return item.product._id === product._id;
+      } );
+
+      // Validar si Existe el producto en el carrito
+      if( existingItem ) {
+        console.log( 'Existe el producto en el carrito' );
+      }
+      else {
+        console.log( 'No existe el producto en el carrito' );
+      }
+
+    }
+  }
 }

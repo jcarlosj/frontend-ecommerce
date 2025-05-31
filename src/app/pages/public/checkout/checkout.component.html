@@ -31,8 +31,8 @@
             </div>
 
             <div class="action-buttons">
-              <a href="#" class="move-to-favorites">Move to Favorites</a>
-              <a href="#" class="remove-item">Remove</a>
+              <a href="#" class="move-to-favorites btn btn-outline-primary">Move to Favorites</a>
+              <button class="btn btn-primary" (click)="onRemove( cartItem.product )">Remove</button>
             </div>
           </div>
 
@@ -41,12 +41,12 @@
             <div class="price-and-quantity">
               <div class="product-price">
                 <p class="product-price__text">Total price</p>
-                <p class="product-price__value">{{ cartItem.product.price | currency }}</p>
+                <p class="product-price__value">{{ ( cartItem.product.price ?? 0 ) * cartItem.cartQuantity | currency }}</p>
               </div>
               <div class="quantity-control">
-                <button class="quantity-box quantity-button">-</button>
+                <button class="quantity-box quantity-button" (click)="onDecrease( cartItem.product )">-</button>
                 <input type="text" class="quantity-box quantity-input" [value]="cartItem.cartQuantity" />
-                <button class="quantity-box quantity-button">+</button>
+                <button class="quantity-box quantity-button" (click)="onIncrease( cartItem.product )">+</button>
               </div>
             </div>
           </div>

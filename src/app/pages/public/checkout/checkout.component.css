@@ -132,8 +132,8 @@
 
 .move-to-favorites,
 .remove-item {
-  color: #333;
-  text-decoration: underline;
+  color: var(--bleu-de-france);
+  text-decoration: none;
 }
 
 .quantity-box {

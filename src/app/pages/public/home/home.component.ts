@@ -35,6 +35,6 @@ export class HomeComponent {
   }
 
   addToCard( product: DataProduct ) {
-    this.cartService.addToCart( product );
+    this.cartService.updateToCart( product, +1 );
   }
 }
