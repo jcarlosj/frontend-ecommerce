@@ -20,6 +20,10 @@ export class CheckoutComponent {
     this.cartItems = this.cartService.getCartItems();
   }
 
+  onTotal() {
+    return this.cartService.calculateCartTotal();
+  }
+
   onIncrease( product: DataProduct ) {
     console.log( 'Incrementa en 1 el producto seleccionado' );
     this.cartService.updateToCart( product, +1 );

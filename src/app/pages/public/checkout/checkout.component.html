@@ -68,7 +68,7 @@
       <div class="summary-details">
         <div class="summary-row">
           <span class="summary-label">Subtotal</span>
-          <span class="summary-value">$225.00</span>
+          <span class="summary-value">{{ onTotal() | currency }}</span>
         </div>
         <div class="summary-row">
           <span class="summary-label">Estimated Shipping & Handling</span>
@@ -81,7 +81,7 @@
         <hr />
         <div class="summary-row total-row">
           <span class="summary-label">TOTAL</span>
-          <span class="summary-value">$225.00</span>
+          <span class="summary-value">{{ onTotal() | currency }}</span>
         </div>
       </div>
 

@@ -88,4 +88,17 @@ export class CartService {
     // Paso 3: Guardar los productos agregados al carrito en el localStorage
     this.saveCart( this.cartItems );
   }
+
+  calculateCartTotal() {
+    const total = this.cartItems.reduce( ( total, item ) => {
+
+      // Asegurarme que el precio y la cantidad de producto no sean indefinidos o nulos
+      const price = item.product.price ?? 0;
+      const quantity = item.cartQuantity ?? 0;
+
+      return total + ( price * quantity );
+    }, 0 );
+
+    return total;
+  }
 }
