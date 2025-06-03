@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { DataProduct } from '../models/product.model';
 import { CartItem } from '../models/cart-item.model';
+
+import { SweetAlertService } from './sweet-alert.service';
 import Swal from 'sweetalert2';
 
 @Injectable({
@@ -9,7 +11,7 @@ import Swal from 'sweetalert2';
 export class CartService {
   cartItems: CartItem[] = [];
 
-  constructor() { }
+  constructor( private sweetAlertService: SweetAlertService ) { }
 
   getCartItems() {
     const cartString = localStorage.getItem( 'shoppingCart' );
@@ -18,94 +20,6 @@ export class CartService {
 
   private saveCart( cart: CartItem[] ) {
     localStorage.setItem( 'shoppingCart', JSON.stringify( cart ) );
-  }
-
-  addToCart( product: DataProduct ) {
-    // Paso 1: Obtener todos los productos agregados en el localStorage
-    this.cartItems = this.getCartItems();
-
-    // Paso 2:
-    // Verificar si el producto ya esta en el carrito
-    const existingItem = this.cartItems.find( ( item: CartItem  ) => {
-      return item.product._id === product._id;
-    } );
-
-    // Verificar que la cantidad del producto NO este indefinida
-    if( product.quantity === undefined ) {
-      // alert( 'La cantidad de producto no esta definida' );
-
-      Swal.fire({
-        icon: "error",
-        title: "Oops...",
-        text: `Product quantity is undefined`,
-        footer: '<a href="#">Why do I have this issue?</a>'
-      });
-
-      return;
-    }
-
-    if( existingItem ) {
-        // Incrementar en 1 la propiedad de cartQuantity, siempre que haya stock suficiente
-        if( existingItem.cartQuantity + 1 <= product.quantity ) {
-          existingItem.cartQuantity ++;
-
-          Swal.fire({
-            position: "bottom-end",
-            icon: "success",
-            title: `You have added ${ existingItem.cartQuantity } ${ existingItem.product.name } to the cart`,
-            showConfirmButton: false,
-            timer: 1500
-          });
-
-        }
-        else {
-          // alert( `Solo hay ${ product.quantity } unidades disponibles` );
-
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: `Only ${ product.quantity } units available`,
-            footer: '<a href="#">Why do I have this issue?</a>'
-          });
-
-          return;
-        }
-    }
-    else {
-        // Agregar al carrito el nuevo producto con cartQuantity = 1, siempre que haya stock suficiente
-        if( product.quantity >= 1 ) {
-          const newCartItem: CartItem = {
-            product: product,
-            cartQuantity: 1
-          }
-
-          this.cartItems.push( newCartItem );
-
-          Swal.fire({
-            position: "bottom-end",
-            icon: "success",
-            title: `You have added 1 ${ product.name } to the cart`,
-            showConfirmButton: false,
-            timer: 1500
-          });
-        }
-        else {
-          // alert( 'Producto sin stock disponible' );
-
-          Swal.fire({
-            icon: "error",
-            title: "Oops...",
-            text: "Product out of stock",
-            footer: '<a href="#">Why do I have this issue?</a>'
-          });
-
-          return;
-        }
-    }
-
-
-    // Paso 3: Guardar los productos agregados al carrito en el localStorage
-    this.saveCart( this.cartItems );
   }
 
   updateToCart( product: DataProduct, change: number = 0 ) {
@@ -128,15 +42,24 @@ export class CartService {
 
         if( change === 0 ) {
           existingItem.cartQuantity = 0;              // Establecerlo en cero para eliminarlo del carrito
+
+          this.sweetAlertService.cartUpdateWindow( `Elimina el ${ product.name } del carrito` );
           console.log( `Elimina el ${ product.name } del carrito` );
         }
         else if( change < 0 ) {
           existingItem.cartQuantity = existingItem.cartQuantity + change;   // Decrementarlo
+
+          this.sweetAlertService.cartUpdateWindow( `Elimina ${ Math.abs( change ) } ${ product.name } del carrito` );
           console.log( `Elimina ${ Math.abs( change ) } ${ product.name } del carrito` );
         }
         else if ( ( existingItem.cartQuantity + change ) <= product.quantity ) {
           existingItem.cartQuantity = existingItem.cartQuantity + change;   // Incrementarlo
+
+          this.sweetAlertService.cartUpdateWindow( `Agrega ${ change } ${ product.name } al carrito` );
           console.log( `Agrega ${ change } ${ product.name } al carrito` );
+        }
+        else {
+          this.sweetAlertService.cartUpdateErrorWindow( `Only ${ product.quantity } units available` );
         }
       }
       else {
@@ -147,6 +70,8 @@ export class CartService {
         };
 
         this.cartItems.push( newCartItem );
+
+        this.sweetAlertService.cartUpdateWindow( `Agrega ${ change } ${ product.name } nuevo/s al carrito` );
         console.log( `Agrega ${ change } ${ product.name } nuevo/s al carrito` );
       }
 
